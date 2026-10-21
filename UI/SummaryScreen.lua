@@ -38,11 +38,11 @@ function ns.summaryFillData(screen)
         local finalScore = game.score
         screen.scoreCaption:SetText("Final Score")
         screen.scoreValue:SetText(Bejeweled:NumberWithCommas(finalScore))
-        screen.bragString = "[Bejeweled Addon]: "
+        screen.bragString = "[Bejeweled Redux]: "
             .. playerName
             .. " just scored "
             .. screen.scoreValue:GetText()
-            .. " points in Classic mode! Download the Bejeweled Addon for Wow to defeat their score!"
+            .. " points in Classic mode! Get Bejeweled Redux to beat their score!"
         if finalScore > stats.score then
             stats.score = finalScore
         end
@@ -55,11 +55,11 @@ function ns.summaryFillData(screen)
         local pps = game.score / elapsed
         screen.scoreCaption:SetText("Points per Second")
         screen.scoreValue:SetFormattedText("%.2f", pps)
-        screen.bragString = "[Bejeweled Addon]: "
+        screen.bragString = "[Bejeweled Redux]: "
             .. playerName
             .. " just scored "
             .. screen.scoreValue:GetText()
-            .. " points per second in a Timed mode! Download the Bejeweled Addon for Wow to defeat their score!"
+            .. " points per second in a Timed mode! Get Bejeweled Redux to beat their score!"
         if pps > stats.score then
             stats.score = pps
         end

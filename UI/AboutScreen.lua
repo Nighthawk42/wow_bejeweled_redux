@@ -132,7 +132,7 @@ local function createCreditsTab(aboutScreen, backdrop)
     panel:SetPoint("TOPLEFT", 10, -10)
     panel:SetPoint("BOTTOMRIGHT", -10, -10)
 
-    local text = Bejeweled:CreateCaption(0, 0, "Bejeweled Addon for WoW", panel, 16, 1, 0.85, 0.1)
+    local text = Bejeweled:CreateCaption(0, 0, "Bejeweled Redux for WoW", panel, 16, 1, 0.85, 0.1)
     text:ClearAllPoints()
     text:SetPoint("TOPLEFT", 12, -12)
     text:SetWidth(336)

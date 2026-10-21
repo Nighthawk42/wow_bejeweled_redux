@@ -1,10 +1,10 @@
 local _, ns = ...
 local Bejeweled = ns.addon
 
--- Slash commands: /bejeweled and /bej.
+-- Slash commands: /bejredux, /bejeweled and /bej.
 
 local HELP = {
-    "|cFFFFFF00Bejeweled|r commands (/bej or /bejeweled):",
+    "|cFFFFFF00Bejeweled Redux|r commands (/bej, /bejeweled or /bejredux):",
     "  (none) or toggle - show/hide the game window",
     "  show / hide - show or hide the game window",
     "  options - open the options screen",
@@ -18,7 +18,7 @@ local function reset()
         Bejeweled.window:Hide()
         Bejeweled.window:Show()
     end
-    Bejeweled:Print("|cFFFFFF00Bejeweled:|r character data and settings reset. Type /reload to fully refresh.")
+    Bejeweled:Print("|cFFFFFF00Bejeweled Redux:|r character data and settings reset. Type /reload to fully refresh.")
 end
 
 local commands = {

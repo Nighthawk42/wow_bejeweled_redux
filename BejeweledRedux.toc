@@ -2,7 +2,9 @@
 ## Title: Bejeweled Redux
 ## Version: 12.1.1
 ## Notes: The popular game Bejeweled, rebuilt for modern World of Warcraft!
-## Author: PopCap Games, Inc.
+## Author: Nighthawk42 (original game by PopCap Games, Inc.)
+## X-Website: https://github.com/Nighthawk42/wow_bejeweled_redux
+## X-License: MIT
 ## IconTexture: Interface\AddOns\BejeweledRedux\images\bejeweled_icon
 ## Category: Mini Games
 ## SavedVariables: BejeweledReduxDB

@@ -6,7 +6,7 @@ All notable changes to Bejeweled Redux. Entries before 12.1.1 are the history of
 
 - **Bejeweled Redux**: First release as its own addon (`BejeweledRedux`) and repository. It can be installed alongside the original Bejeweled; `/bejredux` always opens this one.
 - **Rewrite**: The obfuscated single `Bejeweled.lua` was deobfuscated, then split into one file per system (`Core/`, `Data/`, `Game/`, `Animation/`, `UI/`, `Features/`, `Config/`).
-- **Libraries**: Now built on Ace3 (AceAddon, AceDB, AceComm, AceSerializer, AceConfig, AceConsole), LibDataBroker-1.1 and LibDBIcon-1.0.
+- **Libraries**: Now built on Ace3 (AceAddon, AceEvent, AceTimer, AceConsole, AceDB, AceDBOptions, AceComm, AceSerializer, AceGUI, AceConfig), LibDataBroker-1.1 and LibDBIcon-1.0.
 - **Fresh saved data**: Stats, skills and high scores start over in a new `BejeweledReduxDB` (AceDB, with profiles). Old `BejeweledProfile` / `BejeweledData` saves are not migrated.
 - **New score sync**: Guild and friend high scores use a new versioned AceComm protocol. It does not talk to older versions of the addon. Messages are queued while Midnight's addon-message lockdown is active.
 - **Options**: The options screen is built with AceConfig and is also available under Settings → AddOns. It includes a toggle keybinding and profiles.
@@ -24,7 +24,7 @@ All notable changes to Bejeweled Redux. Entries before 12.1.1 are the history of
   - The level-up wipe was sped up in Classic mode too.
   - Several accidental global variables were removed.
   - The window did not auto-fade when sounds were off.
-  - Fractional Timed-mode lengths came from the slider.
+  - The Timed-mode length slider could produce fractional minutes.
   - The level-up sound pointed at a game file path that no longer works.
   - Flight-mode games did not end on landing when the client reported the taxi state late. Flights that outlast their learned time are now timed until the actual landing.
 

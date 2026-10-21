@@ -54,7 +54,7 @@ local function announceRank(rankName)
     local article = rankName:find("^[AEIOU]") and "an" or "a"
     pcall(
         C_ChatInfo.SendChatMessage,
-        "[Bejeweled Addon]: I have become " .. article .. " " .. rankName .. " in Bejeweling Skill!",
+        "[Bejeweled Redux]: I have become " .. article .. " " .. rankName .. " in Bejeweling Skill!",
         "GUILD"
     )
 end
@@ -109,7 +109,7 @@ local function checkSkill(_, skillType, skillIndex, forced)
     if not isSpecial then
         skill.skillPoints = skill.skillPoints + 1
     elseif feat[2] <= skillPoints and feat[2] < MAX_SKILL - 1 then
-        completedMsg = '[Bejeweled Addon] You just completed "' .. feat[1] .. '."'
+        completedMsg = '[Bejeweled Redux] You just completed "' .. feat[1] .. '."'
         if skillType == const.SKILLTYPE_FUN then
             skillGain = 3
             skill["gainFun" .. skillIndex] = true
@@ -150,7 +150,7 @@ local function checkSkill(_, skillType, skillIndex, forced)
                 printSkill(atMaxSkill and completedMsg or (completedMsg .. " +" .. skillGain .. " Skill!"))
             else
                 if ns.db.profile.verboseSkills then
-                    printSkill('[Bejeweled Addon] You just completed "' .. feat[1] .. '."')
+                    printSkill('[Bejeweled Redux] You just completed "' .. feat[1] .. '."')
                 end
                 printSkill("Your skill in Bejeweling has increased to " .. skill.skillPoints .. ".")
             end

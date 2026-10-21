@@ -10,6 +10,8 @@
 
 ## Open-Source & Community Contributors
 
+- **Kadecgos**  
+  - Previous maintainer of the original addon (credited in the in-game About screen).
 - **Sebastian ([`scbasss`](https://github.com/scbasss))**  
   - Fixed guild/friend score synchronization prefix registrations.
   - Fixed popup close buttons, brag dropdown crashes, keyboard input capture propagation, and UI improvements.
@@ -17,7 +19,7 @@
 - **Chrisliebär ([`chrisliebaer`](https://github.com/chrisliebaer))**  
   - Modern client updates, frame fixes, and window resizing improvements.
 - **Nighthawk ([`Nighthawk42`](https://github.com/Nighthawk42))**  
-  - Project maintenance, release builds, multi-client branches, and the 12.1.1 modernization (deobfuscation and modular rewrite).
+  - Project maintenance, release builds, multi-client branches, and Bejeweled Redux (deobfuscation and modular rewrite, 12.1.1).
 
 ## Third-Party Libraries
 
