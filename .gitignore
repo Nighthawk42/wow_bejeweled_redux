@@ -1,60 +1,40 @@
-# Compiled Lua sources
-luac.out
+# -----------------------------------------------------------------------------
+# Bejeweled for World of Warcraft
+# -----------------------------------------------------------------------------
 
-# luarocks build files
-*.src.rock
+# Embedded libraries (Ace3, LibDataBroker, LibDBIcon), never committed.
+# Release builds get them from the .pkgmeta externals; for local testing,
+# scripts/fetch-libs.sh downloads them.
+Libs/
+
+# Release and packaging output
 *.zip
 *.tar.gz
+.release/
 
-# Object files
-*.o
-*.os
-*.ko
-*.obj
-*.elf
+# Compiled Lua
+luac.out
+*.luac
 
-# Precompiled Headers
-*.gch
-*.pch
+# Local tooling (e.g. the wow-api MCP server installed with npm)
+node_modules/
+package.json
+package-lock.json
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-*.def
-*.exp
+# Python virtual environments used by local tools
+.venv/
+venv/
+__pycache__/
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# IDE & Editor files
+# Editors and IDEs
 .vscode/
 .idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
 *.sw?
+*.suo
 
-# OS generated files
+# OS files
 .DS_Store
 .DS_Store?
 ehthumbs.db
 Thumbs.db
-
-node_modules/
-package.json
-package-lock.json
-Libs/
+desktop.ini
