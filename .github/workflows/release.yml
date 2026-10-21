@@ -23,3 +23,18 @@ jobs:
         uses: BigWigsMods/packager@v2
         env:
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+
+      # Each folder in packs/ is a texture pack addon of its own; attach it to the same release.
+      - name: Attach texture packs
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p .packs-out
+          cd packs
+          for pack in */; do
+            pack="${pack%/}"
+            zip -qr "../.packs-out/${pack}-${GITHUB_REF_NAME}.zip" "$pack"
+          done
+          cd ..
+          gh release upload "$GITHUB_REF_NAME" .packs-out/*.zip --clobber

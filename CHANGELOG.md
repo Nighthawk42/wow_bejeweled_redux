@@ -2,11 +2,14 @@
 
 All notable changes to Bejeweled Redux. Versions follow [Semantic Versioning](https://semver.org/) and are independent of WoW client versions.
 
-## [1.0.0] - Unreleased
+## [1.0.0] - 2026-10-21
 
 - **Bejeweled Redux**: First release as its own addon (`BejeweledRedux`) and repository. It can be installed alongside the original Bejeweled; `/bejredux` always opens this one.
 - **All clients, one package**: Runs on Retail (Midnight), WoW Forever, Mists of Pandaria Classic, Titan Reforged, TBC Anniversary and Classic Era from a single download, with runtime checks where the APIs differ.
 - **Rewrite**: The obfuscated single `Bejeweled.lua` was deobfuscated, then split into one file per system (`Core/`, `Data/`, `Game/`, `Animation/`, `UI/`, `Features/`, `Config/`).
+- **Texture packs**: Every image is described in a texture database (`Data/Textures.lua`, pixel coordinates). Separate pack addons can replace any or all art, including upscales, new layouts, static gems and board tile variants, chosen under Options → General. See `art/README.md`.
+- **Three texture packs** are attached to the release: **HD (2x)** and **Ultra HD (4x)** (AI upscales of the original art) and **Concept** (new 3D-spinning gems, logo, window border, icon and background).
+- **Title logo**: The logo is now its own image (`images/logo.tga`) so packs can replace it with a different size or shape.
 - **Libraries**: Now built on Ace3 (AceAddon, AceEvent, AceTimer, AceConsole, AceDB, AceDBOptions, AceComm, AceSerializer, AceGUI, AceConfig), LibDataBroker-1.1 and LibDBIcon-1.0.
 - **Fresh saved data**: Stats, skills and high scores start over in a new `BejeweledReduxDB` (AceDB, with profiles). Old `BejeweledProfile` / `BejeweledData` saves are not migrated.
 - **New score sync**: Guild and friend high scores use a new versioned AceComm protocol. It does not talk to older versions of the addon. Messages are queued while Midnight's addon-message lockdown is active.

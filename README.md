@@ -26,6 +26,29 @@ On Classic Era, "Two Gems Enter, One Gem Leaves" (win an arena match) is unavail
 
 Release archives include everything. If you install straight from a git checkout instead, run `scripts/fetch-libs.sh` first: the libraries (Ace3, LibDataBroker, LibDBIcon) are downloaded, not committed.
 
+## Texture Packs
+
+Texture packs change the game's art. Each pack is a small addon of its own, attached to every [release](https://github.com/Nighthawk42/wow_bejeweled_redux/releases) next to the main download:
+
+| Download | Pack | What it changes |
+|---|---|---|
+| `BejeweledRedux_2x-<version>.zip` | **HD (2x)** | Every texture at twice the original resolution (AI-upscaled original art) |
+| `BejeweledRedux_4x-<version>.zip` | **Ultra HD (4x)** | Every texture at four times the original resolution (AI-upscaled original art) |
+| `BejeweledRedux_Concept-<version>.zip` | **Concept** | New gems that spin in 3D, a new logo, window border, icon and stone background, in a darker fantasy style |
+
+To use a pack:
+
+1. Install Bejeweled Redux first; packs need it.
+2. Extract the pack's folder (for example `BejeweledRedux_4x`) into the same `Interface/AddOns/` folder.
+3. Restart the game client fully. The game only picks up new addon folders at startup.
+4. Open **Options → General → Texture Pack**, choose the pack, then type `/reload`.
+
+Choose **Default** in the same place to go back to the original art. You can install several packs and switch between them.
+
+The packs use PNG images. PNG is confirmed on Retail and WoW Forever; on the Classic clients it hasn't been tested yet, so if a pack shows blank textures there, switch back to Default and let us know.
+
+Want to make your own? See [art/README.md](art/README.md). All you need is an image editor.
+
 ## Usage
 
 - `/bej` toggles the game window. Subcommands: `show`, `hide`, `options`, `reset` (erases this character's progress) and `help`. `/bejeweled` works too; if the original Bejeweled addon is also installed, use `/bejredux`, which always reaches this one.

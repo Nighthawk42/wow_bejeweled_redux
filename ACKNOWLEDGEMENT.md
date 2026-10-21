@@ -32,4 +32,9 @@ The libraries are fetched at build time (see `.pkgmeta`) and are not part of thi
 
 ## AI Assistance Disclaimer
 
-Parts of Bejeweled Redux were produced with **Claude Opus 5.5**, a large language model by Anthropic, under the direction and review of the maintainer. This includes deobfuscating the original code, the modular rewrite, the Midnight API updates and this documentation. All AI-generated code was reviewed and tested in-game by the maintainer before release. PopCap's original game design, art and sounds were not generated or altered by AI.
+Parts of Bejeweled Redux were produced with **Claude Opus 5.5**, a large language model by Anthropic, under the direction and review of the maintainer. This includes deobfuscating the original code, the modular rewrite, the Midnight API updates and this documentation. All AI-generated code was reviewed and tested in-game by the maintainer before release. PopCap's original game design, sounds and built-in art (`images/`) were not generated or altered by AI.
+
+The optional texture packs are different:
+
+- **HD (2x)** and **Ultra HD (4x)** are the original PopCap art upscaled with an AI upscaler (Upscayl).
+- **Concept** is new art made with AI from the concept sheets in `art/custom/`: the gems were cleaned up and turned into 3D models, and the logo, border, icon and background were generated, with **Meshy** (meshy.ai), then rendered or cut to size with Blender and scripts. The concept art follows PopCap's design, and Bejeweled remains a trademark of Electronic Arts.

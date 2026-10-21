@@ -47,7 +47,8 @@ Every client runs the same files. Where APIs differ, check at runtime instead of
 - **Version Strings:** Versions follow [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`), independent of WoW client versions. Update `## Version:` in `BejeweledRedux.toc` (the About screen reads it from there) and add a matching entry to [CHANGELOG.md](CHANGELOG.md).
 
 ### 4. Releases
-- Tag the release commit `vX.Y.Z` and push the tag. The release workflow runs the BigWigs packager, which fetches the libraries listed in `.pkgmeta` and publishes the zip as a GitHub release.
+- Tag the release commit `vX.Y.Z` and push the tag. The release workflow runs the BigWigs packager, which fetches the libraries listed in `.pkgmeta` and publishes the addon zip as a GitHub release, then zips each folder in `packs/` and attaches it to the same release as `<pack>-vX.Y.Z.zip`.
+- When a pack changes, update the `## Version:` in its `.toc` too.
 
 ---
 
@@ -58,12 +59,15 @@ The addon is split into one file per system, loaded in the order listed in `Beje
 | Folder | Contents |
 |---|---|
 | `Core/` | Addon bootstrap (`Init.lua`), shared constants, AceDB saved variables, utilities, slash commands, login glue |
-| `Data/` | Static tables: skills and achievements, large-text atlas, fade presets |
+| `Data/` | Static tables: skills and achievements, the texture database (`Textures.lua`), fade presets |
 | `Game/` | Board state, matching and hints, scoring, game flow (start/end/pause/save), mouse input |
 | `Animation/` | Pooled visual effects and the 0.025 s animator loop that drives the board state machine |
 | `UI/` | Main window, menus, popup, board and status bar, summary, Feats of Skill and About screens |
 | `Features/` | High-score sync (AceComm), achievements, flight paths, optional open/close triggers, sound, minimap/LDB launcher |
 | `Config/` | AceConfig options (in-window and in the Blizzard Settings panel) |
+| `packs/` | The released texture packs, each a separate addon (not part of the main download) |
+| `art/` | Editable art sources and guides; see [art/README.md](art/README.md) (not part of any download) |
+| `scripts/` | Developer tools: library fetching, art guides, BLP conversion |
 
 Conventions:
 - Files share state through the addon namespace (`local _, ns = ...`) and the AceAddon object `ns.addon`. Never create globals.
@@ -71,6 +75,7 @@ Conventions:
 - Settings live in `ns.db.profile`, per-character progress in `ns.db.char`, account-wide data in `ns.db.global`.
 - Lua 5.1 allows at most 60 upvalues per function; large functions should read rarely used constants as `C.NAME` instead of file-level locals.
 - Settings are booleans (`true`/`false`), never `1`/`nil`. Unnamed frames take `nil` as their name, not `""`.
+- Never hard-code image paths or texture coordinates. Add the image to `Data/Textures.lua` and use `ns.Textures.Path`, `Coords` or `Apply`, so texture packs can replace it. See [art/README.md](art/README.md).
 
 ### Midnight Restrictions (Retail and WoW Forever)
 WoW Forever runs on the Retail engine, so these apply to both. Classic clients don't have them, but code must still work where they do.
