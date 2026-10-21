@@ -1,6 +1,16 @@
 # Contributing to Bejeweled for World of Warcraft
 
-Thank you for helping maintain and improve *Bejeweled for World of Warcraft*! This guide explains our multi-client branch architecture and workflow for contributing bug fixes, features, and compatibility updates.
+Thank you for helping maintain and improve *Bejeweled for World of Warcraft*! This guide covers getting set up, how the code is organized, and the workflow for bug fixes, features, and client compatibility updates.
+
+---
+
+## 🚀 Getting Started
+
+1. Clone the repository and run `scripts/fetch-libs.sh` (Git Bash works on Windows) to download the libraries into `Libs/`.
+2. Make the checkout visible to the game. Either copy it to `World of Warcraft/_retail_/Interface/AddOns/Bejeweled`, or link it so edits apply on `/reload`:
+   - Windows: `mklink /J "<WoW>\_retail_\Interface\AddOns\Bejeweled" "<path to checkout>"`
+   - macOS/Linux: `ln -s <path to checkout> "<WoW>/_retail_/Interface/AddOns/Bejeweled"`
+3. Only the runtime files are needed in-game: `Bejeweled.toc`, `embeds.xml`, the code folders, `Libs/`, `images/` and `sounds/`.
 
 ---
 
@@ -26,7 +36,10 @@ Classic flavors will get their own branches, built from `main` with flavor-speci
 ### 3. TOC & Versioning Conventions
 - **Single TOC:** Each branch has one `Bejeweled.toc`. Do not introduce flavor suffixes (`Bejeweled_Mainline.toc`, etc.).
 - **TOC Interface Numbers:** Ensure `## Interface:` matches the latest patch interface value for that client flavor.
-- **Version Strings:** Update `## Version:` in `Bejeweled.toc` (the About screen reads it from there) and tag the release `vX.Y.Z`. Pushing the tag runs the release workflow.
+- **Version Strings:** Update `## Version:` in `Bejeweled.toc` (the About screen reads it from there) and add a matching entry to [CHANGELOG.md](CHANGELOG.md).
+
+### 4. Releases
+- Tag the release commit `vX.Y.Z` and push the tag. The release workflow runs the BigWigs packager, which fetches the libraries listed in `.pkgmeta` and publishes the zip as a GitHub release.
 
 ---
 
@@ -49,6 +62,12 @@ Conventions:
 - Code that needs saved variables or creates frames runs from `ns.RegisterBuilder(name, func)` (on `OnInitialize`); event registration and login logic run from `ns.RegisterEnabler(name, func)` (on `OnEnable`).
 - Settings live in `ns.db.profile`, per-character progress in `ns.db.char`, account-wide data in `ns.db.global`.
 - Lua 5.1 allows at most 60 upvalues per function; large functions should read rarely used constants as `C.NAME` instead of file-level locals.
+- Settings are booleans (`true`/`false`), never `1`/`nil`. Unnamed frames take `nil` as their name, not `""`.
+
+### Midnight (12.x) Restrictions
+- Addons no longer receive `COMBAT_LOG_EVENT_UNFILTERED`; use other events, such as the death recap or `PARTY_KILL`.
+- Unit data and event payloads can be *secret values* in instances, encounters and PvP. Check with `issecretvalue()` before comparing or doing arithmetic, and never do math on `UnitHealth`.
+- Addon messages and chat can be locked down (`C_ChatInfo.InChatMessagingLockdown()`). `Features/HighScores.lua` queues messages until the lockdown lifts; follow the same pattern for anything that sends.
 
 ### Libraries
 Ace3, LibDataBroker-1.1 and LibDBIcon-1.0 are not committed. Release builds pull them in through the `.pkgmeta` externals. For local testing, run `scripts/fetch-libs.sh` (Git Bash works on Windows) to populate `Libs/`.
@@ -63,5 +82,15 @@ Ace3, LibDataBroker-1.1 and LibDBIcon-1.0 are not committed. Release builds pull
 ---
 
 ## 🧪 Testing Guidelines
-- Whenever possible, test changes live in-game on the appropriate client version before submitting a PR.
-- Use a Lua error reporting addon (e.g., BugSack / BugGrabber) to ensure no silent errors or frame leaks occur during gameplay, score syncing, flight paths, or game transitions.
+- Test changes in-game on the client the branch targets before submitting a PR. Use BugSack / BugGrabber to catch silent Lua errors.
+- At minimum, check:
+  - Login, the first-run legal notice and the splash screen.
+  - A Classic game: play, pause, `/reload` to resume, game over and summary.
+  - A Timed game running out.
+  - A flight: opening on takeoff (if enabled), the Flight-mode game ending on landing, and flight times on the flight map tooltip.
+  - The Feats of Skill, About and Options screens.
+- Code that can only be confirmed in-game is marked `-- TODO(in-game):`. If you verify one, remove the marker in your PR.
+
+## 🤖 AI-Assisted Contributions
+- AI tools may be used, but you are responsible for the result: read the code, test it in-game, and make sure it follows this guide.
+- Say in the PR description when a substantial part of a change was AI-generated.

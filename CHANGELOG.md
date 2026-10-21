@@ -4,6 +4,7 @@ All notable changes and updates to the Bejeweled addon for World of Warcraft.
 
 ## [12.1.1] - 2026-10-21 - Modernization (Retail / Midnight)
 
+- **Repository**: History restarted on a new `main` branch. The old per-client branches and releases were retired; the Classic flavors will return as new branches built on this code.
 - **Rewrite**: The obfuscated single `Bejeweled.lua` was deobfuscated, then split into one file per system (`Core/`, `Data/`, `Game/`, `Animation/`, `UI/`, `Features/`, `Config/`).
 - **Libraries**: Now built on Ace3 (AceAddon, AceDB, AceComm, AceSerializer, AceConfig, AceConsole), LibDataBroker-1.1 and LibDBIcon-1.0.
 - **Fresh saved data**: Stats, skills and high scores start over in a new `BejeweledDB` (AceDB, with profiles). Old `BejeweledProfile` / `BejeweledData` saves are not migrated.
@@ -25,6 +26,7 @@ All notable changes and updates to the Bejeweled addon for World of Warcraft.
   - The window did not auto-fade when sounds were off.
   - Fractional Timed-mode lengths came from the slider.
   - The level-up sound pointed at a game file path that no longer works.
+  - Flight-mode games did not end on landing when the client reported the taxi state late. Flights that outlast their learned time are now timed until the actual landing.
 
 ## [12.1.0] - 2026
 
