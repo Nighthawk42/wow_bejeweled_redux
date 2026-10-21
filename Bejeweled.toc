@@ -1,0 +1,49 @@
+## Interface: 120100
+## Title: Bejeweled
+## Version: 12.1.1
+## Notes: The popular game Bejeweled, for World of Warcraft!
+## Author: PopCap Games, Inc.
+## IconTexture: Interface\AddOns\Bejeweled\images\bejeweled_icon
+## Category: Mini Games
+## SavedVariables: BejeweledDB
+## AddonCompartmentFunc: Bejeweled_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: Bejeweled_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: Bejeweled_OnAddonCompartmentLeave
+
+embeds.xml
+
+Core\Init.lua
+Core\Constants.lua
+Core\Database.lua
+Core\Util.lua
+Data\Const.lua
+
+Game\State.lua
+Game\Scoring.lua
+Game\Board.lua
+Game\Game.lua
+Game\Input.lua
+
+Animation\Effects.lua
+Animation\Animator.lua
+
+UI\Widgets.lua
+UI\LevelBar.lua
+UI\MainWindow.lua
+UI\Menus.lua
+Features\Flight.lua
+Features\Sound.lua
+UI\Popup.lua
+Features\Broker.lua
+UI\GameBoard.lua
+UI\SummaryScreen.lua
+UI\FeatsScreen.lua
+UI\AboutScreen.lua
+UI\GameArea.lua
+Config\Options.lua
+
+Features\HighScores.lua
+Features\Achievements.lua
+Features\Triggers.lua
+Core\Commands.lua
+Core\Main.lua
