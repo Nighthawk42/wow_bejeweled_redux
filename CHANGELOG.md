@@ -1,8 +1,8 @@
 # Changelog
 
-All notable changes to Bejeweled Redux. Entries before 12.1.1 are the history of the original Bejeweled addon ([Nighthawk42/wow_bejeweled](https://github.com/Nighthawk42/wow_bejeweled)).
+All notable changes to Bejeweled Redux. Versions follow [Semantic Versioning](https://semver.org/) and are independent of WoW client versions.
 
-## [12.1.1] - 2026-10-21 - Modernization (Retail / Midnight)
+## [1.0.0] - Unreleased
 
 - **Bejeweled Redux**: First release as its own addon (`BejeweledRedux`) and repository. It can be installed alongside the original Bejeweled; `/bejredux` always opens this one.
 - **Rewrite**: The obfuscated single `Bejeweled.lua` was deobfuscated, then split into one file per system (`Core/`, `Data/`, `Game/`, `Animation/`, `UI/`, `Features/`, `Config/`).
@@ -27,6 +27,12 @@ All notable changes to Bejeweled Redux. Entries before 12.1.1 are the history of
   - The Timed-mode length slider could produce fractional minutes.
   - The level-up sound pointed at a game file path that no longer works.
   - Flight-mode games did not end on landing when the client reported the taxi state late. Flights that outlast their learned time are now timed until the actual landing.
+
+---
+
+# Original Bejeweled Addon
+
+History of the original addon that Bejeweled Redux is based on, archived at [Nighthawk42/wow_bejeweled](https://github.com/Nighthawk42/wow_bejeweled). These versions followed WoW client versions.
 
 ## [12.1.0] - 2026
 

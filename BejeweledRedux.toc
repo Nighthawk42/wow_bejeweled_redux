@@ -1,6 +1,6 @@
 ## Interface: 120100
 ## Title: Bejeweled Redux
-## Version: 12.1.1
+## Version: 1.0.0
 ## Notes: The popular game Bejeweled, rebuilt for modern World of Warcraft!
 ## Author: Nighthawk42 (original game by PopCap Games, Inc.)
 ## X-Website: https://github.com/Nighthawk42/wow_bejeweled_redux

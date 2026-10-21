@@ -19,7 +19,7 @@
 - **Chrisliebär ([`chrisliebaer`](https://github.com/chrisliebaer))**  
   - Modern client updates, frame fixes, and window resizing improvements.
 - **Nighthawk ([`Nighthawk42`](https://github.com/Nighthawk42))**  
-  - Project maintenance, release builds, multi-client branches, and Bejeweled Redux (deobfuscation and modular rewrite, 12.1.1).
+  - Project maintenance, release builds, multi-client branches, and Bejeweled Redux (deobfuscation and modular rewrite).
 
 ## Third-Party Libraries
 
@@ -32,4 +32,4 @@ The libraries are fetched at build time (see `.pkgmeta`) and are not part of thi
 
 ## AI Assistance Disclaimer
 
-Parts of the 12.1.1 modernization were produced with **Claude Opus 5.5**, a large language model by Anthropic, under the direction and review of the maintainer. This includes deobfuscating the original code, the modular rewrite, the Midnight API updates and this documentation. All AI-generated code was reviewed and tested in-game by the maintainer before release. PopCap's original game design, art and sounds were not generated or altered by AI.
+Parts of Bejeweled Redux were produced with **Claude Opus 5.5**, a large language model by Anthropic, under the direction and review of the maintainer. This includes deobfuscating the original code, the modular rewrite, the Midnight API updates and this documentation. All AI-generated code was reviewed and tested in-game by the maintainer before release. PopCap's original game design, art and sounds were not generated or altered by AI.

@@ -36,7 +36,7 @@ Classic flavors will get their own branches, built from `main` with flavor-speci
 ### 3. TOC & Versioning Conventions
 - **Single TOC:** Each branch has one `BejeweledRedux.toc`. Do not introduce flavor suffixes (`BejeweledRedux_Mainline.toc`, etc.).
 - **TOC Interface Numbers:** Ensure `## Interface:` matches the latest patch interface value for that client flavor.
-- **Version Strings:** Update `## Version:` in `BejeweledRedux.toc` (the About screen reads it from there) and add a matching entry to [CHANGELOG.md](CHANGELOG.md).
+- **Version Strings:** Versions follow [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`), independent of WoW client versions. Update `## Version:` in `BejeweledRedux.toc` (the About screen reads it from there) and add a matching entry to [CHANGELOG.md](CHANGELOG.md).
 
 ### 4. Releases
 - Tag the release commit `vX.Y.Z` and push the tag. The release workflow runs the BigWigs packager, which fetches the libraries listed in `.pkgmeta` and publishes the zip as a GitHub release.

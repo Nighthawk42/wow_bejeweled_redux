@@ -8,7 +8,7 @@ Bejeweled Redux is a ground-up modernization of the original addon. It installs 
 
 | Branch | Client Flavor | Interface Version | Status |
 |---|---|---|---|
-| [`main`](https://github.com/Nighthawk42/wow_bejeweled_redux/tree/main) | **Retail / Midnight** | `120100` | Current (12.1.1) |
+| [`main`](https://github.com/Nighthawk42/wow_bejeweled_redux/tree/main) | **Retail / Midnight** | `120100` | Current (1.0.0) |
 
 The Classic flavors (Mists, Cataclysm, Wrath, TBC Anniversary and Classic Era) are being rebuilt on the new code base and will return as their own branches.
 
