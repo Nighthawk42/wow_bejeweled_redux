@@ -55,6 +55,8 @@ local function handler(input)
 end
 
 ns.RegisterEnabler("Commands", function()
+    -- /bej and /bejeweled are shared with the original addon; /bejredux always reaches this one.
+    Bejeweled:RegisterChatCommand("bejredux", handler)
     Bejeweled:RegisterChatCommand("bejeweled", handler)
     Bejeweled:RegisterChatCommand("bej", handler)
 end)

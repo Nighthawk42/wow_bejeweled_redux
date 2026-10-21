@@ -1,16 +1,16 @@
-# Contributing to Bejeweled for World of Warcraft
+# Contributing to Bejeweled Redux
 
-Thank you for helping maintain and improve *Bejeweled for World of Warcraft*! This guide covers getting set up, how the code is organized, and the workflow for bug fixes, features, and client compatibility updates.
+Thank you for helping maintain and improve *Bejeweled Redux*! This guide covers getting set up, how the code is organized, and the workflow for bug fixes, features, and client compatibility updates.
 
 ---
 
 ## 🚀 Getting Started
 
 1. Clone the repository and run `scripts/fetch-libs.sh` (Git Bash works on Windows) to download the libraries into `Libs/`.
-2. Make the checkout visible to the game. Either copy it to `World of Warcraft/_retail_/Interface/AddOns/Bejeweled`, or link it so edits apply on `/reload`:
-   - Windows: `mklink /J "<WoW>\_retail_\Interface\AddOns\Bejeweled" "<path to checkout>"`
-   - macOS/Linux: `ln -s <path to checkout> "<WoW>/_retail_/Interface/AddOns/Bejeweled"`
-3. Only the runtime files are needed in-game: `Bejeweled.toc`, `embeds.xml`, the code folders, `Libs/`, `images/` and `sounds/`.
+2. Make the checkout visible to the game. Either copy it to `World of Warcraft/_retail_/Interface/AddOns/BejeweledRedux`, or link it so edits apply on `/reload`:
+   - Windows: `mklink /J "<WoW>\_retail_\Interface\AddOns\BejeweledRedux" "<path to checkout>"`
+   - macOS/Linux: `ln -s <path to checkout> "<WoW>/_retail_/Interface/AddOns/BejeweledRedux"`
+3. Only the runtime files are needed in-game: `BejeweledRedux.toc`, `embeds.xml`, the code folders, `Libs/`, `images/` and `sounds/`.
 
 ---
 
@@ -18,7 +18,7 @@ Thank you for helping maintain and improve *Bejeweled for World of Warcraft*! Th
 
 | Branch | Client Flavor | Interface Version | Purpose |
 |---|---|---|---|
-| [`main`](https://github.com/Nighthawk42/wow_bejeweled/tree/main) | **Retail / Midnight** | `120100` | Default development branch |
+| [`main`](https://github.com/Nighthawk42/wow_bejeweled_redux/tree/main) | **Retail / Midnight** | `120100` | Default development branch |
 
 Classic flavors will get their own branches, built from `main` with flavor-specific API changes.
 
@@ -34,9 +34,9 @@ Classic flavors will get their own branches, built from `main` with flavor-speci
 - Fixes that only apply to one client go directly against that client's branch. Note in the PR description why the change is flavor-specific.
 
 ### 3. TOC & Versioning Conventions
-- **Single TOC:** Each branch has one `Bejeweled.toc`. Do not introduce flavor suffixes (`Bejeweled_Mainline.toc`, etc.).
+- **Single TOC:** Each branch has one `BejeweledRedux.toc`. Do not introduce flavor suffixes (`BejeweledRedux_Mainline.toc`, etc.).
 - **TOC Interface Numbers:** Ensure `## Interface:` matches the latest patch interface value for that client flavor.
-- **Version Strings:** Update `## Version:` in `Bejeweled.toc` (the About screen reads it from there) and add a matching entry to [CHANGELOG.md](CHANGELOG.md).
+- **Version Strings:** Update `## Version:` in `BejeweledRedux.toc` (the About screen reads it from there) and add a matching entry to [CHANGELOG.md](CHANGELOG.md).
 
 ### 4. Releases
 - Tag the release commit `vX.Y.Z` and push the tag. The release workflow runs the BigWigs packager, which fetches the libraries listed in `.pkgmeta` and publishes the zip as a GitHub release.
@@ -45,7 +45,7 @@ Classic flavors will get their own branches, built from `main` with flavor-speci
 
 ## 🧱 Code Layout
 
-The addon is split into one file per system, loaded in the order listed in `Bejeweled.toc`:
+The addon is split into one file per system, loaded in the order listed in `BejeweledRedux.toc`:
 
 | Folder | Contents |
 |---|---|

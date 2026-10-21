@@ -1,14 +1,14 @@
 ## Interface: 120100
-## Title: Bejeweled
+## Title: Bejeweled Redux
 ## Version: 12.1.1
-## Notes: The popular game Bejeweled, for World of Warcraft!
+## Notes: The popular game Bejeweled, rebuilt for modern World of Warcraft!
 ## Author: PopCap Games, Inc.
-## IconTexture: Interface\AddOns\Bejeweled\images\bejeweled_icon
+## IconTexture: Interface\AddOns\BejeweledRedux\images\bejeweled_icon
 ## Category: Mini Games
-## SavedVariables: BejeweledDB
-## AddonCompartmentFunc: Bejeweled_OnAddonCompartmentClick
-## AddonCompartmentFuncOnEnter: Bejeweled_OnAddonCompartmentEnter
-## AddonCompartmentFuncOnLeave: Bejeweled_OnAddonCompartmentLeave
+## SavedVariables: BejeweledReduxDB
+## AddonCompartmentFunc: BejeweledRedux_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: BejeweledRedux_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: BejeweledRedux_OnAddonCompartmentLeave
 
 embeds.xml
 

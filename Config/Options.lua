@@ -7,7 +7,7 @@ local BOARD_WIDTH, BOARD_HEIGHT = C.BOARD_WIDTH, C.BOARD_HEIGHT
 -- in-window options screen (Bejeweled.optionsScreen), which renders the same table into
 -- an AceGUI container over the board. Also applies the window alphas and the toggle keybinding.
 
-local APP_NAME = "Bejeweled"
+local APP_NAME = "BejeweledRedux"
 local AceGUI = LibStub("AceGUI-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
@@ -75,7 +75,7 @@ end
 local function buildOptions()
     return {
         type = "group",
-        name = "Bejeweled",
+        name = "Bejeweled Redux",
         childGroups = "tab",
         get = getSetting,
         set = setSetting,
@@ -333,12 +333,12 @@ end
 
 ns.RegisterBuilder("Options", function()
     LibStub("AceConfig-3.0"):RegisterOptionsTable(APP_NAME, buildOptions())
-    AceConfigDialog:AddToBlizOptions(APP_NAME, APP_NAME)
+    AceConfigDialog:AddToBlizOptions(APP_NAME, "Bejeweled Redux")
 
     applyAlpha()
     Bejeweled.window:SetAlpha(ns.db.profile.gameAlpha)
 
-    toggleButton = CreateFrame("Button", "BejeweledToggleButton", UIParent)
+    toggleButton = CreateFrame("Button", "BejeweledReduxToggleButton", UIParent)
     toggleButton:Hide()
     toggleButton:RegisterForClicks("AnyUp")
     toggleButton:SetScript("OnClick", function()

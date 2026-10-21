@@ -5,7 +5,7 @@ local C = ns.C
 -- Launcher: LibDataBroker object shown as a minimap icon (LibDBIcon) and in the addon
 -- compartment. Left-click toggles the game window, right-click opens the options screen.
 
-local ICON_NAME = "Bejeweled"
+local ICON_NAME = "BejeweledRedux"
 local LibDBIcon = LibStub("LibDBIcon-1.0")
 
 local Broker = {}
@@ -55,7 +55,7 @@ end
 ns.RegisterBuilder("Broker", function()
     local dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(ICON_NAME, {
         type = "launcher",
-        text = "Bejeweled",
+        text = "Bejeweled Redux",
         icon = C.IMAGE_PATH .. "bejeweled_icon",
         OnClick = onClick,
         OnTooltipShow = fillTooltip,
@@ -64,16 +64,16 @@ ns.RegisterBuilder("Broker", function()
 end)
 
 -- Addon compartment entry (declared in Bejeweled.toc).
-function Bejeweled_OnAddonCompartmentClick(_, buttonName)
+function BejeweledRedux_OnAddonCompartmentClick(_, buttonName)
     onClick(nil, buttonName)
 end
 
-function Bejeweled_OnAddonCompartmentEnter(_, menuButtonFrame)
+function BejeweledRedux_OnAddonCompartmentEnter(_, menuButtonFrame)
     GameTooltip:SetOwner(menuButtonFrame, "ANCHOR_LEFT")
     fillTooltip(GameTooltip)
     GameTooltip:Show()
 end
 
-function Bejeweled_OnAddonCompartmentLeave()
+function BejeweledRedux_OnAddonCompartmentLeave()
     GameTooltip:Hide()
 end

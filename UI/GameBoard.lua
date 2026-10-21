@@ -13,7 +13,7 @@ ns.RegisterBuilder("GameBoard", function()
     boardAnchor:SetHeight(C.BOARD_HEIGHT + 12)
     Bejeweled.boardAnchor = boardAnchor
 
-    local gameBoard = CreateFrame("Frame", "BejeweledGameBoard", boardAnchor, "BackdropTemplate")
+    local gameBoard = CreateFrame("Frame", "BejeweledReduxGameBoard", boardAnchor, "BackdropTemplate")
     gameBoard:SetPoint("TOP")
     gameBoard:SetWidth(C.BOARD_WIDTH + 14)
     gameBoard:SetHeight(C.BOARD_HEIGHT + 12)

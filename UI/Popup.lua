@@ -8,7 +8,7 @@ local MENU_WIDTH, MENU_HEIGHT = C.MENU_WIDTH, C.MENU_HEIGHT
 -- a colour code get a single OK button; the others offer Feats of Skill / Options.
 
 ns.RegisterBuilder("Popup", function()
-    local popup = CreateFrame("Frame", "BejeweledPopup", Bejeweled.window, "BackdropTemplate")
+    local popup = CreateFrame("Frame", "BejeweledReduxPopup", Bejeweled.window, "BackdropTemplate")
     popup:SetWidth(MENU_WIDTH + 60)
     popup:SetHeight(MENU_HEIGHT / 1.2)
     popup:SetPoint("CENTER")

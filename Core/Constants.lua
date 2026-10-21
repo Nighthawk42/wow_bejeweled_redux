@@ -6,7 +6,7 @@ local _, ns = ...
 local C = {}
 ns.C = C
 
-C.ADDON_PATH = "Interface\\AddOns\\Bejeweled\\"
+C.ADDON_PATH = "Interface\\AddOns\\BejeweledRedux\\"
 C.IMAGE_PATH = C.ADDON_PATH .. "images\\"
 C.SOUND_PATH = C.ADDON_PATH .. "sounds\\"
 C.FONT = C.IMAGE_PATH .. "Contb___.ttf"

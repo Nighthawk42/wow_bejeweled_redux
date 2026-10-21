@@ -1,6 +1,6 @@
 # Acknowledgements
 
-*Bejeweled for World of Warcraft* is built upon the classic PopCap minigame and sustained by community maintainers.
+*Bejeweled Redux* is built upon the classic PopCap minigame and sustained by community maintainers.
 
 ## Original Game & Assets
 

@@ -69,7 +69,7 @@ local function createLabel(parent, fontSize, y, text)
 end
 
 local function createMainMenu()
-    local menu = createMenuFrame("BejeweledMenu", MENU_HEIGHT - 20, 30, "Menu", 0)
+    local menu = createMenuFrame("BejeweledReduxMenu", MENU_HEIGHT - 20, 30, "Menu", 0)
     menu:SetScript("OnShow", function(self)
         ns.setPaused(true)
         if not ns.game.gameOver and ns.game.gameMode then
@@ -144,7 +144,7 @@ local function createMainMenu()
 end
 
 local function createTimedMenu()
-    local menu = createMenuFrame("BejeweledTimedMenu", MENU_HEIGHT - 30, 33, "Timed Mode", -10)
+    local menu = createMenuFrame("BejeweledReduxTimedMenu", MENU_HEIGHT - 30, 33, "Timed Mode", -10)
 
     local function setFlightWidgetsShown(shown)
         menu:SetHeight(shown and (MENU_HEIGHT - 30) or (MENU_HEIGHT - 80))
@@ -221,7 +221,7 @@ local function createTimedMenu()
 end
 
 local function createGameModeMenu()
-    local menu = createMenuFrame("BejeweledGameModeMenu", MENU_HEIGHT - 100, 33, "Game Type", -10)
+    local menu = createMenuFrame("BejeweledReduxGameModeMenu", MENU_HEIGHT - 100, 33, "Game Type", -10)
     menu:SetScript("OnShow", function()
         ns.setPaused(true)
     end)
@@ -254,7 +254,7 @@ local function createGameModeMenu()
 end
 
 local function createClassicMenu()
-    local menu = createMenuFrame("BejeweledClassicMenu", MENU_HEIGHT - 100, 33, "Classic Mode", -10)
+    local menu = createMenuFrame("BejeweledReduxClassicMenu", MENU_HEIGHT - 100, 33, "Classic Mode", -10)
     -- Without a saved game there is nothing to choose: start right away.
     menu:SetScript("OnShow", function(self)
         local savedState = ns.db.char.savedState

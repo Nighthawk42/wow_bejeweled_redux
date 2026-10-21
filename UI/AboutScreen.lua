@@ -115,7 +115,7 @@ local function createWhyTab(aboutScreen, backdrop)
     text:SetFont(STANDARD_TEXT_FONT, 11, "OUTLINE")
     text:SetTextColor(1, 1, 1)
     text:SetPoint("BOTTOM", 0, 12)
-    text:SetText("Latest Version at:\nhttps://github.com/Nighthawk42/wow_bejeweled")
+    text:SetText("Latest Version at:\nhttps://github.com/Nighthawk42/wow_bejeweled_redux")
 
     text = panel:CreateFontString(nil, "OVERLAY")
     text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")

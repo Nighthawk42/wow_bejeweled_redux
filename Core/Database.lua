@@ -1,6 +1,6 @@
 local _, ns = ...
 
--- Saved variables (AceDB, SavedVariables: BejeweledDB).
+-- Saved variables (AceDB, SavedVariables: BejeweledReduxDB).
 --   ns.db.profile  settings (per profile, shareable between characters)
 --   ns.db.char     per-character progress: stats, skill, high-score lists, saved game
 --   ns.db.global   account-wide data: learned flight times, games played per character, tip flags
@@ -77,7 +77,7 @@ function ns.CharacterKey()
 end
 
 function ns.InitDatabase()
-    ns.db = LibStub("AceDB-3.0"):New("BejeweledDB", defaults, true)
+    ns.db = LibStub("AceDB-3.0"):New("BejeweledReduxDB", defaults, true)
     local char = ns.db.char
     if not char.scoreList then
         char.scoreList = { friends = defaultScoreList(), guild = defaultScoreList() }

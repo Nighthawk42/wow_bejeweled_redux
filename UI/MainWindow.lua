@@ -46,7 +46,7 @@ local function onSizeChanged(self)
 end
 
 ns.RegisterBuilder("MainWindow", function()
-    local window = CreateFrame("Frame", "BejeweledWindow", UIParent, "BackdropTemplate")
+    local window = CreateFrame("Frame", "BejeweledReduxWindow", UIParent, "BackdropTemplate")
     window:SetWidth(WINDOW_WIDTH)
     window:SetHeight(WINDOW_HEIGHT)
     window:SetPoint("CENTER")
@@ -178,7 +178,7 @@ ns.RegisterBuilder("MainWindow", function()
 
     -- Named click target for the show/hide keybinding (SetOverrideBindingClick), and a
     -- 1x1 toggle hot spot in the bottom-right screen corner.
-    local showHideButton = CreateFrame("Button", "BejeweledShowHideButton", UIParent)
+    local showHideButton = CreateFrame("Button", "BejeweledReduxShowHideButton", UIParent)
     showHideButton:SetSize(1, 1)
     showHideButton:SetPoint("BOTTOMRIGHT")
     showHideButton:SetScript("OnClick", function()

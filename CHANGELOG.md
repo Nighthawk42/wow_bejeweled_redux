@@ -1,13 +1,13 @@
 # Changelog
 
-All notable changes and updates to the Bejeweled addon for World of Warcraft.
+All notable changes to Bejeweled Redux. Entries before 12.1.1 are the history of the original Bejeweled addon ([Nighthawk42/wow_bejeweled](https://github.com/Nighthawk42/wow_bejeweled)).
 
 ## [12.1.1] - 2026-10-21 - Modernization (Retail / Midnight)
 
-- **Repository**: History restarted on a new `main` branch. The old per-client branches and releases were retired; the Classic flavors will return as new branches built on this code.
+- **Bejeweled Redux**: First release as its own addon (`BejeweledRedux`) and repository. It can be installed alongside the original Bejeweled; `/bejredux` always opens this one.
 - **Rewrite**: The obfuscated single `Bejeweled.lua` was deobfuscated, then split into one file per system (`Core/`, `Data/`, `Game/`, `Animation/`, `UI/`, `Features/`, `Config/`).
 - **Libraries**: Now built on Ace3 (AceAddon, AceDB, AceComm, AceSerializer, AceConfig, AceConsole), LibDataBroker-1.1 and LibDBIcon-1.0.
-- **Fresh saved data**: Stats, skills and high scores start over in a new `BejeweledDB` (AceDB, with profiles). Old `BejeweledProfile` / `BejeweledData` saves are not migrated.
+- **Fresh saved data**: Stats, skills and high scores start over in a new `BejeweledReduxDB` (AceDB, with profiles). Old `BejeweledProfile` / `BejeweledData` saves are not migrated.
 - **New score sync**: Guild and friend high scores use a new versioned AceComm protocol. It does not talk to older versions of the addon. Messages are queued while Midnight's addon-message lockdown is active.
 - **Options**: The options screen is built with AceConfig and is also available under Settings → AddOns. It includes a toggle keybinding and profiles.
 - **Minimap**: The minimap button now uses LibDBIcon. Added an addon compartment entry. Titan Panel shows the LibDataBroker launcher; the FuBar and Titan-specific plugins were removed.
