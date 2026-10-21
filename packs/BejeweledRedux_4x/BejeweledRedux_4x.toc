@@ -1,0 +1,10 @@
+## Interface: 120100, 50504, 20506, 11509, 38002, 16001
+## Title: Bejeweled Redux - Ultra HD Textures (4x)
+## Notes: Every texture at four times the original resolution.
+## Author: Nighthawk42
+## Version: 1.0.0
+## Dependencies: BejeweledRedux
+## IconTexture: Interface\AddOns\BejeweledRedux_4x\images\bejeweled_icon.png
+## Category: Mini Games
+
+pack.lua

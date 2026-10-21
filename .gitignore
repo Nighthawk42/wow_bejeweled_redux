@@ -7,6 +7,12 @@
 # scripts/fetch-libs.sh downloads them.
 Libs/
 
+# Large intermediate art sources, kept locally: Meshy 3D models and texture maps, the Meshy
+# pilot run, and AI upscales of the concept sheets. Packs and finished art are committed.
+art/custom/**/*.glb
+art/custom/meshy_pilot/
+art/custom/concept_upscayl_*
+
 # Release and packaging output
 *.zip
 *.tar.gz
