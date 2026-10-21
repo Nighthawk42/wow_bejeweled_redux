@@ -12,7 +12,7 @@ local function statusBarBackdrop()
     local backdrop = ns.makeBackdrop()
     backdrop.edgeFile = "Interface\\Buttons\\UI-SliderBar-Border"
     backdrop.edgeSize = 8
-    backdrop.bgFile = C.IMAGE_PATH .. "windowBackground"
+    backdrop.bgFile = ns.Textures.Path("windowBackground")
     backdrop.tileSize = 64
     backdrop.insets.left = 2
     backdrop.insets.right = 2
@@ -21,7 +21,7 @@ end
 
 local function borderBackdrop()
     local backdrop = ns.makeBackdrop()
-    backdrop.edgeFile = C.IMAGE_PATH .. "levelBorder"
+    backdrop.edgeFile = ns.Textures.Path("levelBorder")
     backdrop.edgeSize = 32
     backdrop.insets.left = 2
     backdrop.insets.right = 2
@@ -30,17 +30,11 @@ end
 
 -- Shows a large art-piece caption (Bejeweled.const.largeText[key]) over the board.
 local function statusTextSetText(self, key)
-    local texInfo = Bejeweled.const.largeText[key]
-    if texInfo then
-        self.text:SetWidth(texInfo[1])
-        self.text:SetHeight(texInfo[2])
-        if #texInfo > 9 then
-            self.text:SetTexCoord(unpack(texInfo, 3, 10))
-            self.background:SetVertexColor(texInfo[11], texInfo[12], texInfo[13])
-        else
-            self.text:SetTexCoord(texInfo[3], texInfo[4], texInfo[5], texInfo[6])
-            self.background:SetVertexColor(texInfo[7], texInfo[8], texInfo[9])
-        end
+    local info = Bejeweled.const.largeText[key]
+    if info then
+        self.text:SetSize(info[1], info[2])
+        self.text:SetTexCoord(ns.Textures.Coords("artPieces", key))
+        self.background:SetVertexColor(info[3], info[4], info[5])
     end
     self:SetAlpha(1)
     self.background:SetAlpha(1)
@@ -48,6 +42,7 @@ end
 
 local function createBackgroundTiles(gameArea)
     local tileSize = BOARD_WIDTH / 4
+    local variants = ns.Textures.Variants("board", "tile")
     for tileRow = 0, 3 do
         for tileCol = 0, 3 do
             local tile = CreateFrame("Frame", nil, gameArea)
@@ -56,8 +51,8 @@ local function createBackgroundTiles(gameArea)
             tile.texture = tile:CreateTexture(nil, "BACKGROUND")
             tile.texture:SetSize(tileSize, tileSize)
             tile.texture:SetPoint("CENTER")
-            tile.texture:SetTexture(C.IMAGE_PATH .. "board")
-            tile.texture:SetTexCoord(0.046875, 0.828125, 0.046875, 0.828125)
+            tile.texture:SetTexture(ns.Textures.Path("board"))
+            tile.texture:SetTexCoord(ns.Textures.Coords("board", variants[math.random(#variants)]))
             tile:SetAlpha(0.8)
             tile:SetFrameLevel(gameArea:GetFrameLevel())
         end
@@ -65,13 +60,12 @@ local function createBackgroundTiles(gameArea)
 end
 
 local function createStatusText(foreground, gameBoard)
-    local stripTexInfo = Bejeweled.const.largeText["Strip"]
     local statusText = CreateFrame("Frame", nil, foreground)
     statusText:SetPoint("CENTER")
     statusText:SetSize(1, 1)
     statusText:Hide()
     statusText.text = statusText:CreateTexture(nil, "OVERLAY")
-    statusText.text:SetTexture(C.IMAGE_PATH .. "artPieces")
+    statusText.text:SetTexture(ns.Textures.Path("artPieces"))
     statusText.text:SetSize(1, 1)
     statusText.text:SetPoint("CENTER")
     statusText.text:SetTexCoord(0, 0, 0, 0)
@@ -80,8 +74,8 @@ local function createStatusText(foreground, gameBoard)
     statusText.background:SetPoint("LEFT", gameBoard, "LEFT", 8, 0)
     statusText.background:SetPoint("RIGHT", gameBoard, "RIGHT", -8, 0)
     statusText.background:SetHeight(84)
-    statusText.background:SetTexture(C.IMAGE_PATH .. "artPieces")
-    statusText.background:SetTexCoord(stripTexInfo[3], stripTexInfo[4], stripTexInfo[5], stripTexInfo[6])
+    statusText.background:SetTexture(ns.Textures.Path("artPieces"))
+    statusText.background:SetTexCoord(ns.Textures.Coords("artPieces", "Strip"))
     statusText.background:Hide()
     statusText.SetText = statusTextSetText
     Bejeweled.gameStatusText = statusText
@@ -107,7 +101,7 @@ local function createLevelBar(statusBar, dataBorder, window)
     background:SetFrameLevel(statusBar:GetFrameLevel() + 1)
 
     local bar = background:CreateTexture(nil, "OVERLAY")
-    bar:SetTexture(C.IMAGE_PATH .. "barArt")
+    bar:SetTexture(ns.Textures.Path("barArt"))
     bar:SetVertexColor(0, 0.2, 1)
     bar:SetPoint("TOPLEFT", 2, -5)
     bar:SetHeight(32)
@@ -187,7 +181,7 @@ local function createLevelBarButton(statusBar, window)
     background:SetFrameLevel(statusBar:GetFrameLevel() + 3)
 
     local bar = background:CreateTexture(nil, "OVERLAY")
-    bar:SetTexture(C.IMAGE_PATH .. "barArt")
+    bar:SetTexture(ns.Textures.Path("barArt"))
     bar:SetVertexColor(0.6, 0, 0)
     bar:SetPoint("TOPLEFT", 2, -5)
     bar:SetPoint("BOTTOMRIGHT", -2, -5)
@@ -284,7 +278,7 @@ local function createSplash(gameBoard, window)
     splash.art = splash:CreateTexture(nil, "ARTWORK")
     splash.art:SetPoint("TOPLEFT", gameBoard, "TOPLEFT", 12, -7)
     splash.art:SetPoint("BOTTOMRIGHT", gameBoard, "BOTTOMRIGHT", -7, 10)
-    splash.art:SetTexture(C.IMAGE_PATH .. "bejeweled_splash")
+    splash.art:SetTexture(ns.Textures.Path("splash"))
     splash.text =
         Bejeweled:CreateCaption(0, 0, "(c) 2000, 2008 PopCap Games Inc. All right reserved", splash, 12, 1, 1, 1)
     splash.text:ClearAllPoints()

@@ -31,7 +31,7 @@ local function createMenuFrame(name, height, levelOffset, title, titleX)
     menu:SetFrameLevel(Bejeweled.window:GetFrameLevel() + levelOffset)
     local backdrop = ns.makeBackdrop()
     backdrop.edgeFile = "Interface\\Glues\\Common\\TextPanel-Border"
-    backdrop.bgFile = C.IMAGE_PATH .. "windowBackground"
+    backdrop.bgFile = ns.Textures.Path("windowBackground")
     backdrop.edgeSize = 32
     backdrop.tileSize = 128
     backdrop.insets.top = 3

@@ -17,8 +17,10 @@ embeds.xml
 Core\Init.lua
 Core\Constants.lua
 Core\Database.lua
+Core\Textures.lua
 Core\Util.lua
 Data\Const.lua
+Data\Textures.lua
 
 Game\State.lua
 Game\Scoring.lua

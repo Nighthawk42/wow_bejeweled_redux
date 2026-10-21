@@ -297,21 +297,22 @@ Bejeweled.const.SKILL_ACHIEVE5A = 8
 Bejeweled.const.SKILL_ACHIEVE5B = 9
 Bejeweled.const.SKILL_ACHIEVE6A = 10
 Bejeweled.const.SKILL_ACHIEVE6B = 11
+-- Large art pieces (regions of the "artPieces" texture): on-screen { width, height, r, g, b }, where
+-- r, g, b tint the status band shown behind board captions. Texture regions are in Data/Textures.lua.
 Bejeweled.const.largeText = {
-    ["Go"] = { 135, 76, 0, 0.263, 0, 0.296, 224 / 255, 142 / 255, 254 / 255 },
-    ["3"] = { 36, 55, 0.637, 0.706, 0.785, 1, 225 / 255, 32 / 255, 38 / 255 },
-    ["2"] = { 40, 55, 0.479, 0.556, 0.344, 0.557, 192 / 255, 189 / 255, 24 / 255 },
-    ["1"] = { 25, 55, 0.43, 0.478, 0.344, 0.557, 54 / 255, 255 / 255, 54 / 255 },
-    ["Time's up"] = { 155, 40, 0.264, 0.565, 0.16, 0.314, 223 / 255, 0, 0 },
-    ["No more moves"] = { 295, 41, 0.264, 0.839, 0, 0.158, 223 / 255, 0, 0 },
-    ["Level up"] = { 220, 56, 0, 0.429, 0.341, 0.557, 102 / 255, 197 / 255, 254 / 255 },
-    ["Bejeweled"] = { 285, 59, 0, 0.555, 0.559, 0.786, 1, 1, 1 },
-    ["Multiplier up"] = { 313, 54, 0, 0.611, 0.79, 1, 102 / 255, 197 / 255, 254 / 255 },
-    ["Strip"] = { 448, 82, 0, 0.622, 0.32, 0.336, 1, 1, 1 },
-    ["Popcap"] = { 100, 100, 0.715, 0.85, 0.161, 0.431, 1, 1, 1 },
-    ["Tutorial_1"] = { 150, 83, 0.708, 1, 0.677, 1, 1, 1, 1 },
-    ["Tutorial_2"] = { 152, 76, 1, 0, 0.852, 0, 1, 0.592, 0.852, 0.592, 1, 1, 1 },
-    ["Tutorial_3"] = { 151, 62, 0.557, 0.851, 0.434, 0.674, 1, 1, 1 },
+    ["Go"] = { 135, 76, 224 / 255, 142 / 255, 254 / 255 },
+    ["3"] = { 36, 55, 225 / 255, 32 / 255, 38 / 255 },
+    ["2"] = { 40, 55, 192 / 255, 189 / 255, 24 / 255 },
+    ["1"] = { 25, 55, 54 / 255, 255 / 255, 54 / 255 },
+    ["Time's up"] = { 155, 40, 223 / 255, 0, 0 },
+    ["No more moves"] = { 295, 41, 223 / 255, 0, 0 },
+    ["Level up"] = { 220, 56, 102 / 255, 197 / 255, 254 / 255 },
+    ["Multiplier up"] = { 313, 54, 102 / 255, 197 / 255, 254 / 255 },
+    ["Strip"] = { 448, 82, 1, 1, 1 },
+    ["Popcap"] = { 100, 100, 1, 1, 1 },
+    ["Tutorial_1"] = { 150, 83, 1, 1, 1 },
+    ["Tutorial_2"] = { 152, 76, 1, 1, 1 },
+    ["Tutorial_3"] = { 151, 62, 1, 1, 1 },
 }
 Bejeweled.const.windowFadeOut = { mode = "OUT", timeToFade = 0.5, startAlpha = 1, endAlpha = 0.3 }
 Bejeweled.const.windowFadeIn = { mode = "IN", timeToFade = 0.15, startAlpha = 0.3, endAlpha = 1 }

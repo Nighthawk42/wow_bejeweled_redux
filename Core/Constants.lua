@@ -7,9 +7,7 @@ local C = {}
 ns.C = C
 
 C.ADDON_PATH = "Interface\\AddOns\\BejeweledRedux\\"
-C.IMAGE_PATH = C.ADDON_PATH .. "images\\"
 C.SOUND_PATH = C.ADDON_PATH .. "sounds\\"
-C.FONT = C.IMAGE_PATH .. "Contb___.ttf"
 
 C.COMM_PREFIX = "BejeweledHS1"
 
@@ -39,42 +37,13 @@ C.FAVORITE_COLOR_LABELS = {
     "|cFF00FF00Green|r",
 }
 
--- Texture atlases (texcoords as { left, right, top, bottom }).
-C.GEM_SPIN_TEXCOORDS = {} -- 25 frames, 5x5 grid of 50px cells; frame 1 is the static gem
-C.EXPLOSION_TEXCOORDS = {} -- same 25 cells
-C.HYPERCUBE_TEXCOORDS = {} -- 50 frames, 10x5 grid
-C.SHARD_TEXCOORDS = {} -- 16 frames, 4x4 grid
-C.SHINE_TEXCOORDS = {} -- 9 frames, 3x3 grid
-do
-    local index = 1
-    for texRow = 0, 4 do
-        local top, bottom = texRow * 0.19999, (texRow + 1) * 0.19999
-        for col = 0, 9 do
-            C.HYPERCUBE_TEXCOORDS[texRow * 10 + col + 1] = { col / 10, (col + 1) / 10, top, bottom }
-        end
-        local gemTop, gemBottom = (texRow * 50) / 255, ((texRow + 1) * 50 - 1) / 255
-        local lefts = { 0, 49 / 255, 99 / 255, 149 / 255, 199 / 255 }
-        local rights = { 49 / 255, 99 / 255, 149 / 255, 199 / 255, 249 / 255 }
-        for col = 1, 5 do
-            C.GEM_SPIN_TEXCOORDS[index] = { lefts[col], rights[col], gemTop, gemBottom }
-            C.EXPLOSION_TEXCOORDS[index] = { lefts[col], rights[col], gemTop, gemBottom }
-            index = index + 1
-        end
-    end
-    index = 1
-    for texRow = 0, 3 do
-        for col = 0, 3 do
-            C.SHARD_TEXCOORDS[index] = { col / 4, (col + 1) / 4, texRow / 4, (texRow + 1) / 4 }
-            index = index + 1
-        end
-    end
-    for texRow = 0, 2 do
-        local top, bottom = texRow * 0.33, (texRow + 1) * 0.33
-        C.SHINE_TEXCOORDS[1 + texRow * 3] = { 0, 42.66 / 128, top, bottom }
-        C.SHINE_TEXCOORDS[2 + texRow * 3] = { 0.33, 85.33 / 128, top, bottom }
-        C.SHINE_TEXCOORDS[3 + texRow * 3] = { 0.66, 1, top, bottom }
-    end
-end
+-- Animation frame texture coordinates ({ left, right, top, bottom }), filled at login from the
+-- active texture pack (Core/Textures.lua). Code may keep references to these tables.
+C.GEM_SPIN_TEXCOORDS = {} -- gem spin; frame 1 is the resting gem
+C.EXPLOSION_TEXCOORDS = {}
+C.HYPERCUBE_TEXCOORDS = {}
+C.SHARD_TEXCOORDS = {}
+C.SHINE_TEXCOORDS = {}
 
 -- Mouse-over shine sweep: alpha per frame, and which neighbour each keyframe spills onto.
 C.FX_SHINE_ALPHA = { 0, 0.43, 0.66, 0.8, 0.66, 0.43 }

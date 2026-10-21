@@ -30,6 +30,7 @@ local defaults = {
         defaultPublish = "GUILD",
         keybinding = nil,
         minimap = { hide = false },
+        texturePack = "Default",
         -- Flight integration
         newGameFlight = true,
         showFlightTooltips = true,

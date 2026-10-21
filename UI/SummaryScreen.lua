@@ -2,7 +2,6 @@ local _, ns = ...
 local Bejeweled = ns.addon
 local C = ns.C
 local BOARD_WIDTH, BOARD_HEIGHT = C.BOARD_WIDTH, C.BOARD_HEIGHT
-local IMAGE_PATH = C.IMAGE_PATH
 
 -- Game-over summary: final score / PPS, time, level, cascade and combo, plus the
 -- Publish / See High Scores / Brag! buttons and the brag channel picker.
@@ -220,7 +219,7 @@ ns.RegisterBuilder("SummaryScreen", function()
     summary:SetWidth(BOARD_WIDTH + 6)
     summary:SetHeight(BOARD_HEIGHT + 6)
     local backdrop = ns.makeBackdrop()
-    backdrop.bgFile = IMAGE_PATH .. "windowBackground"
+    backdrop.bgFile = ns.Textures.Path("windowBackground")
     backdrop.tileSize = 128
     backdrop.edgeFile = "Interface\\Glues\\Common\\TextPanel-Border"
     backdrop.edgeSize = 32

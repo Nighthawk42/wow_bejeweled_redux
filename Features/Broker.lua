@@ -56,7 +56,7 @@ ns.RegisterBuilder("Broker", function()
     local dataObject = LibStub("LibDataBroker-1.1"):NewDataObject(ICON_NAME, {
         type = "launcher",
         text = "Bejeweled Redux",
-        icon = C.IMAGE_PATH .. "bejeweled_icon",
+        icon = ns.Textures.Path("icon"),
         OnClick = onClick,
         OnTooltipShow = fillTooltip,
     })

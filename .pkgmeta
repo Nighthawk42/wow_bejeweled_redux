@@ -18,6 +18,8 @@ externals:
 
 ignore:
   - .github
+  - art
+  - packs
   - .gitignore
   - scripts
   - README.md

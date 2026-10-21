@@ -6,7 +6,6 @@ local C = ns.C
 -- text, the hint arrow) and the gem frame builder. These become methods of Bejeweled.animator
 -- (see Animation/Animator.lua), which drives them every frame.
 
-local IMAGE_PATH = C.IMAGE_PATH
 local GEM_WIDTH, GEM_HEIGHT = C.GEM_WIDTH, C.GEM_HEIGHT
 local GEM_HALF_WIDTH, GEM_HALF_HEIGHT = C.GEM_HALF_WIDTH, C.GEM_HALF_HEIGHT
 local SHARD_WIDTH, SHARD_HEIGHT = C.SHARD_WIDTH, C.SHARD_HEIGHT
@@ -78,12 +77,12 @@ end
 
 function ns.createGemFrame(x, y, parent, color)
     local frame = Bejeweled.animator:CreateImage(x, y, GEM_WIDTH, GEM_HEIGHT, parent)
-    frame.texture:SetTexture(IMAGE_PATH .. "gem_" .. GEM_COLOR_NAMES[color])
+    frame.texture:SetTexture(ns.Textures.Path("gem", GEM_COLOR_NAMES[color]))
     frame.texture:SetTexCoord(0, 0, 0, 0)
-    frame.highlight:SetTexture(IMAGE_PATH .. "shine_" .. GEM_COLOR_NAMES[color])
+    frame.highlight:SetTexture(ns.Textures.Path("shine", GEM_COLOR_NAMES[color]))
     frame.highlight:SetTexCoord(0, 0, 0, 0)
     frame.selector = frame:CreateTexture(nil, "OVERLAY")
-    frame.selector:SetTexture(IMAGE_PATH .. "selector")
+    frame.selector:SetTexture(ns.Textures.Path("selector"))
     frame.selector:SetSize(GEM_WIDTH, GEM_HEIGHT)
     frame.selector:SetPoint("CENTER")
     frame.selector:Hide()
@@ -99,9 +98,9 @@ function ns.createGemFrame(x, y, parent, color)
 end
 
 local function animatorCreateHyperGem(self, gem)
-    gem.texture:SetTexture(IMAGE_PATH .. "hypergem")
+    gem.texture:SetTexture(ns.Textures.Path("hypergem"))
     gem.texture:SetTexCoord(unpack(HYPERCUBE_TEXCOORDS[1]))
-    gem.highlight:SetTexture(IMAGE_PATH .. "shine_white")
+    gem.highlight:SetTexture(ns.Textures.Path("shine", "white"))
     gem.highlight:SetTexCoord(0, 0, 0, 0)
     gem.glow:SetTexCoord(0, 0, 0, 0)
     gem.fxType = FX_HYPERCUBE
@@ -114,9 +113,9 @@ local function animatorCreateBigStar(self, x, y, parentGem)
     local star = tremove(self.bigStarQueue, 1)
     if not star then
         star = self:CreateImage(x, y, GEM_WIDTH, GEM_HEIGHT, parentGem, true)
-        star.texture:SetTexture(IMAGE_PATH .. "bigstar")
+        star.texture:SetTexture(ns.Textures.Path("bigstar"))
         star.texture:SetSize(BIG_STAR_WIDTH, BIG_STAR_HEIGHT)
-        star.highlight:SetTexture(IMAGE_PATH .. "bigstar")
+        star.highlight:SetTexture(ns.Textures.Path("bigstar"))
         star.highlight:SetSize(BIG_STAR_WIDTH, BIG_STAR_HEIGHT)
     end
     star:ClearAllPoints()
@@ -136,7 +135,7 @@ local function animatorCreateExplosion(self, x, y, gem)
     local explosion = tremove(self.explosionQueue, 1)
     if not explosion then
         explosion = self:CreateImage(x, y, GEM_WIDTH, GEM_HEIGHT, Bejeweled.gameBoard)
-        explosion.texture:SetTexture(IMAGE_PATH .. "explosion")
+        explosion.texture:SetTexture(ns.Textures.Path("explosion"))
         explosion.texture:SetSize(EXPLOSION_WIDTH, EXPLOSION_HEIGHT)
     end
     explosion.x = gem.x
@@ -156,7 +155,7 @@ local function animatorCreateHint(self, gem)
     local hint = self.hintObj
     if not hint then
         hint = self:CreateImage(0, 0, 64, 64, Bejeweled.foreground, true)
-        hint.texture:SetTexture(IMAGE_PATH .. "hintArrow")
+        hint.texture:SetTexture(ns.Textures.Path("hintArrow"))
         self.hintObj = hint
     end
     if gem then
@@ -203,10 +202,10 @@ local function animatorCreateLightning(self, x1, y1, x2, y2, color)
         bolt = CreateFrame("Frame", nil, foreground)
         bolt:SetAllPoints(foreground)
         bolt.line = bolt:CreateLine(nil, "ARTWORK")
-        bolt.line:SetTexture(IMAGE_PATH .. "lightning")
+        bolt.line:SetTexture(ns.Textures.Path("lightning"))
         bolt.line:SetThickness(LIGHTNING_THICKNESS)
         bolt.highlight = bolt:CreateLine(nil, "OVERLAY")
-        bolt.highlight:SetTexture(IMAGE_PATH .. "lightningbright")
+        bolt.highlight:SetTexture(ns.Textures.Path("lightningbright"))
         bolt.highlight:SetBlendMode("ADD")
         bolt.highlight:SetThickness(LIGHTNING_CORE_THICKNESS)
     end
@@ -229,7 +228,7 @@ local function animatorCreateShard(self, offX, offY, gem, color)
     local shard = tremove(self.shardQueue, 1)
     if not shard then
         shard = self:CreateImage(offX, offY, SHARD_WIDTH, SHARD_HEIGHT, Bejeweled.gameBoard, true)
-        shard.texture:SetTexture(IMAGE_PATH .. "gemshards")
+        shard.texture:SetTexture(ns.Textures.Path("gemshards"))
     end
     shard.x = gem.x + offX
     shard.y = gem.y + offY

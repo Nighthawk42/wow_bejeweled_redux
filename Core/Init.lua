@@ -13,8 +13,9 @@ ns.addon = Bejeweled
 Bejeweled.version = C_AddOns.GetAddOnMetadata(ADDON_NAME, "Version") or "dev"
 Bejeweled.splashDisplayTime = 2
 
--- Files register setup steps that need saved variables (builders, run from OnInitialize)
--- or the game world (enablers, run from OnEnable). Both run in TOC load order.
+-- Files register setup steps: builders create frames, enablers register events and run login
+-- logic. Both run at login (OnEnable), builders first, each in TOC load order. Building waits
+-- for login so texture pack addons, which load after this one, have registered.
 local builders, enablers = {}, {}
 
 function ns.RegisterBuilder(name, func)
@@ -35,9 +36,10 @@ end
 
 function Bejeweled:OnInitialize()
     ns.InitDatabase()
-    runSteps(builders)
 end
 
 function Bejeweled:OnEnable()
+    ns.Textures.Activate(ns.db.profile.texturePack)
+    runSteps(builders)
     runSteps(enablers)
 end

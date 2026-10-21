@@ -2,13 +2,12 @@ local _, ns = ...
 local Bejeweled = ns.addon
 local C = ns.C
 local BOARD_WIDTH, BOARD_HEIGHT = C.BOARD_WIDTH, C.BOARD_HEIGHT
-local IMAGE_PATH = C.IMAGE_PATH
 
 -- About screen: three tabs (how to play, why PopCap made the addon, credits).
 
 local CONTENT_WIDTH = BOARD_WIDTH + 6 - 24
 
-local function createTab(aboutScreen, id, coords, ...)
+local function createTab(aboutScreen, id, region, ...)
     local tab = CreateFrame("Frame", nil, aboutScreen)
     tab:SetPoint(...)
     tab:SetWidth(133)
@@ -17,8 +16,8 @@ local function createTab(aboutScreen, id, coords, ...)
     tab.texture:SetPoint("TOPLEFT")
     tab.texture:SetWidth(133)
     tab.texture:SetHeight(34)
-    tab.texture:SetTexture(IMAGE_PATH .. "tabs")
-    tab.texture:SetTexCoord(unpack(coords))
+    tab.texture:SetTexture(ns.Textures.Path("tabs"))
+    tab.texture:SetTexCoord(ns.Textures.Coords("tabs", region))
     if id > 1 then
         tab.texture:SetVertexColor(0.5, 0.5, 0.5)
         tab:SetFrameLevel(Bejeweled.window:GetFrameLevel() + 24)
@@ -47,13 +46,11 @@ local function createPanel(parent, backdrop)
     return panel
 end
 
-local function createArt(panel, artName, width, height, ...)
+local function createArt(panel, artName, width, height)
     local art = Bejeweled.const.largeText[artName]
     local texture = panel:CreateTexture(nil, "ARTWORK")
-    texture:SetTexture(IMAGE_PATH .. "artPieces")
-    texture:SetTexCoord(...)
-    texture:SetWidth(width or art[1])
-    texture:SetHeight(height or art[2])
+    ns.Textures.Apply(texture, "artPieces", artName)
+    texture:SetSize(width or art[1], height or art[2])
     return texture
 end
 
@@ -70,10 +67,7 @@ local function createTutorialTab(aboutScreen, backdrop)
         panel:SetPoint("TOPLEFT", 5, -5 - (index - 1) * 118)
         panel:SetWidth(376)
         panel:SetHeight(118)
-        local art = Bejeweled.const.largeText[info[1]]
-        -- Tutorial_2 is stored with 8 texcoords (mirrored); the others with 4.
-        local coordCount = #art == 13 and 8 or 4
-        local texture = createArt(panel, info[1], nil, nil, unpack(art, 3, 2 + coordCount))
+        local texture = createArt(panel, info[1])
         texture:SetPoint("CENTER", -85, 0)
         local caption = Bejeweled:CreateCaption(0, 0, info[2], panel, 14, 1, 0.85, 0.1)
         caption:ClearAllPoints()
@@ -91,7 +85,7 @@ local function createWhyTab(aboutScreen, backdrop)
     panel:SetPoint("BOTTOMRIGHT", -10, -20)
 
     local art = Bejeweled.const.largeText["Popcap"]
-    local logo = createArt(panel, "Popcap", art[1] - 20, art[2] - 20, art[3], art[4], art[5], art[6])
+    local logo = createArt(panel, "Popcap", art[1] - 20, art[2] - 20)
     logo:SetPoint("TOP", 0, -10)
 
     local text = Bejeweled:CreateCaption(0, 0, "", panel, 14, 1, 0.85, 0.1)
@@ -173,7 +167,7 @@ ns.RegisterBuilder("AboutScreen", function()
     aboutScreen:SetHeight(BOARD_HEIGHT + 6 - 22)
     aboutScreen:EnableMouse(true)
     local backdrop = ns.makeBackdrop()
-    backdrop.bgFile = IMAGE_PATH .. "windowBackground"
+    backdrop.bgFile = ns.Textures.Path("windowBackground")
     backdrop.tileSize = 128
     backdrop.edgeFile = "Interface\\Glues\\Common\\TextPanel-Border"
     backdrop.edgeSize = 32
@@ -198,18 +192,18 @@ ns.RegisterBuilder("AboutScreen", function()
     end)
     Bejeweled.aboutScreen = aboutScreen
 
-    createTab(aboutScreen, 1, { 0, 111 / 255, 64 / 255, 95 / 255 }, "BOTTOMLEFT", aboutScreen, "TOPLEFT", 5, -14)
+    createTab(aboutScreen, 1, "howToPlay", "BOTTOMLEFT", aboutScreen, "TOPLEFT", 5, -14)
     createTab(
         aboutScreen,
         2,
-        { 112 / 255, 223 / 255, 64 / 255, 95 / 255 },
+        "whyPopCap",
         "BOTTOMLEFT",
         aboutScreen,
         "TOPLEFT",
         139,
         -14
     )
-    createTab(aboutScreen, 3, { 0, 111 / 255, 96 / 255, 127 / 255 }, "BOTTOMRIGHT", aboutScreen, "TOPRIGHT", -2, -14)
+    createTab(aboutScreen, 3, "credits", "BOTTOMRIGHT", aboutScreen, "TOPRIGHT", -2, -14)
 
     createTutorialTab(aboutScreen, backdrop)
     createWhyTab(aboutScreen, backdrop)

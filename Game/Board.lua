@@ -8,7 +8,7 @@ local C = ns.C
 local BOARD_ROWS, BOARD_COLS = C.BOARD_ROWS, C.BOARD_COLS
 local GEM_HALF_WIDTH, GEM_HALF_HEIGHT = C.GEM_HALF_WIDTH, C.GEM_HALF_HEIGHT
 local NUM_GEM_COLORS, GEM_HYPERCUBE = C.NUM_GEM_COLORS, C.GEM_HYPERCUBE
-local IMAGE_PATH, GEM_COLOR_NAMES = C.IMAGE_PATH, C.GEM_COLOR_NAMES
+local GEM_COLOR_NAMES = C.GEM_COLOR_NAMES
 local GEM_SPIN_TEXCOORDS = C.GEM_SPIN_TEXCOORDS
 local NEIGHBOR_OFFSETS = C.NEIGHBOR_OFFSETS
 local MATCH_VERTICAL, MATCH_HORIZONTAL = C.MATCH_VERTICAL, C.MATCH_HORIZONTAL
@@ -48,9 +48,9 @@ function ns.spawnRandomGem(col, row, avoidMatches, keepExisting)
         end
     end
     gem.contents = color
-    gem.texture:SetTexture(IMAGE_PATH .. "gem_" .. GEM_COLOR_NAMES[color])
+    gem.texture:SetTexture(ns.Textures.Path("gem", GEM_COLOR_NAMES[color]))
     gem.texture:SetTexCoord(unpack(GEM_SPIN_TEXCOORDS[1]))
-    gem.highlight:SetTexture(IMAGE_PATH .. "shine_" .. GEM_COLOR_NAMES[color])
+    gem.highlight:SetTexture(ns.Textures.Path("shine", GEM_COLOR_NAMES[color]))
     gem.highlight:SetTexCoord(0, 0, 0, 0)
     if not avoidMatches then
         local stats = ns.db.char.stats
@@ -62,11 +62,11 @@ function ns.refreshGemTexture(gem)
     local contents = gem.contents
     if contents and contents > 0 and contents <= NUM_GEM_COLORS then
         local colorName = GEM_COLOR_NAMES[contents]
-        gem.texture:SetTexture(IMAGE_PATH .. "gem_" .. colorName)
+        gem.texture:SetTexture(ns.Textures.Path("gem", colorName))
         gem.texture:SetTexCoord(unpack(GEM_SPIN_TEXCOORDS[1]))
-        gem.highlight:SetTexture(IMAGE_PATH .. "shine_" .. colorName)
+        gem.highlight:SetTexture(ns.Textures.Path("shine", colorName))
         gem.highlight:SetTexCoord(0, 0, 0, 0)
-        gem.glow:SetTexture(IMAGE_PATH .. "highlight_" .. colorName)
+        gem.glow:SetTexture(ns.Textures.Path("glow", colorName))
         gem.glow:SetTexCoord(0, 1, 0, 1)
     elseif contents == GEM_HYPERCUBE then
         Bejeweled.animator:CreateHyperGem(gem)

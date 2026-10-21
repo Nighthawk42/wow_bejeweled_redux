@@ -7,7 +7,7 @@ local C = ns.C
 function Bejeweled:CreateCaption(x, y, text, parent, fontSize, red, green, blue, gameFont, noOutline)
     local fontString = parent:CreateFontString(nil, "OVERLAY")
     if gameFont then
-        fontString:SetFont(C.FONT, fontSize or 10, "OUTLINE")
+        fontString:SetFont(ns.Textures.Font(), fontSize or 10, "OUTLINE")
     else
         fontString:SetFont(STANDARD_TEXT_FONT, fontSize or 10, noOutline and "" or "OUTLINE")
     end

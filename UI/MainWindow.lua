@@ -6,11 +6,13 @@ local WINDOW_WIDTH, WINDOW_HEIGHT, BOARD_HEIGHT = C.WINDOW_WIDTH, C.WINDOW_HEIGH
 -- The main game window: draggable/resizable frame with logo, menu button, the
 -- show/hide toggle button (keybinding target) and the fade-out mouse-over overlay.
 
+local LOGO_AREA_HEIGHT = 59
+
 -- Rescales board, summary, logo and icon to follow the window width.
 local function onSizeChanged(self)
     local scale = self:GetWidth() / WINDOW_WIDTH
     local iconScale = 1
-    local logoInfo = Bejeweled.const.largeText["Bejeweled"]
+    local logoWidth, logoHeight = ns.Textures.Display("logo")
     if scale < 0.887 then
         if not self.menuButton.isSmall then
             self.menuButton.isSmall = true
@@ -25,8 +27,7 @@ local function onSizeChanged(self)
     if scale < 0.855 then
         iconScale = math.max(0.75, scale / 0.855 / (0.855 / scale))
     end
-    local logoWidth = math.min(logoInfo[1], self:GetWidth() - iconScale * 56 - self.menuButton:GetWidth())
-    local logoScale = logoWidth / logoInfo[1]
+    local logoScale = math.min(logoWidth, self:GetWidth() - iconScale * 56 - self.menuButton:GetWidth()) / logoWidth
     Bejeweled.gameBoard:SetScale(scale)
     Bejeweled.summaryScreen:SetScale(scale)
     self:SetHeight((BOARD_HEIGHT + 4) * scale + 110)
@@ -38,8 +39,7 @@ local function onSizeChanged(self)
             levelBar.bar:SetWidth(levelBar:GetWidth() - 4)
         end
     end
-    self.logo:SetWidth(logoInfo[1] * logoScale)
-    self.logo:SetHeight(logoInfo[2] * logoScale)
+    self.logo:SetSize(logoWidth * logoScale, logoHeight * logoScale)
     self.icon:SetWidth(64 * iconScale)
     self.icon:SetHeight(64 * iconScale)
     Bejeweled.resizeUpdate = true
@@ -63,8 +63,8 @@ ns.RegisterBuilder("MainWindow", function()
     window.mouseBounds:SetPoint("BOTTOMRIGHT", 20, -20)
 
     local backdrop = ns.makeBackdrop()
-    backdrop.edgeFile = C.IMAGE_PATH .. "windowBorder"
-    backdrop.bgFile = C.IMAGE_PATH .. "windowBackground"
+    backdrop.edgeFile = ns.Textures.Path("windowBorder")
+    backdrop.bgFile = ns.Textures.Path("windowBackground")
     backdrop.edgeSize = 32
     backdrop.tileSize = 64
     backdrop.insets.right = 3
@@ -133,21 +133,21 @@ ns.RegisterBuilder("MainWindow", function()
     window.menuButton = menuButton
 
     local icon = window:CreateTexture(nil, "ARTWORK")
-    icon:SetTexture(C.IMAGE_PATH .. "windowIcon")
+    icon:SetTexture(ns.Textures.Path("windowIcon"))
     icon:SetPoint("TOPLEFT", -12, 4)
     icon:SetSize(64, 64)
     window.icon = icon
 
-    local logoInfo = Bejeweled.const.largeText["Bejeweled"]
+    local logoWidth, logoHeight = ns.Textures.Display("logo")
     local logoFrame = CreateFrame("Frame", nil, window)
     logoFrame:SetPoint("TOPLEFT", window)
     logoFrame:SetPoint("TOPRIGHT", window, -8, 0)
-    logoFrame:SetHeight(logoInfo[2])
+    -- The title area keeps the original logo height; taller pack logos hang up over the window edge.
+    logoFrame:SetHeight(LOGO_AREA_HEIGHT)
     local logo = logoFrame:CreateTexture(nil, "ARTWORK")
-    logo:SetTexture(C.IMAGE_PATH .. "artPieces")
+    ns.Textures.Apply(logo, "logo", "logo")
     logo:SetPoint("BOTTOM", 0, 0)
-    logo:SetSize(logoInfo[1], logoInfo[2])
-    logo:SetTexCoord(logoInfo[3], logoInfo[4], logoInfo[5], logoInfo[6])
+    logo:SetSize(logoWidth, logoHeight)
     window.logo = logo
 
     -- Bottom-right grip: drag to resize (height follows width), right-click to reset.

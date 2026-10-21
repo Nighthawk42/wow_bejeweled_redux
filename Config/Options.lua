@@ -178,6 +178,25 @@ local function buildOptions()
                             end
                         end,
                     },
+                    texturePack = {
+                        type = "select",
+                        name = "Texture Pack",
+                        desc = "Art used for gems, effects and windows. Packs are separate addons. Takes effect after /reload.",
+                        order = 8,
+                        values = function()
+                            local values = {}
+                            for _, name in ipairs(ns.Textures.GetPackNames()) do
+                                values[name] = name
+                            end
+                            return values
+                        end,
+                        set = function(_, value)
+                            ns.db.profile.texturePack = value
+                            if value ~= ns.Textures.activePack then
+                                Bejeweled:Print("Texture pack '" .. value .. "' will be used after /reload.")
+                            end
+                        end,
+                    },
                 },
             },
             scores = {
@@ -269,7 +288,7 @@ local function createOptionsScreen()
     screen:SetSize(BOARD_WIDTH + 6, BOARD_HEIGHT + 6)
     screen:EnableMouse(true)
     local backdrop = ns.makeBackdrop()
-    backdrop.bgFile = C.IMAGE_PATH .. "windowBackground"
+    backdrop.bgFile = ns.Textures.Path("windowBackground")
     backdrop.tileSize = 128
     backdrop.edgeFile = "Interface\\Glues\\Common\\TextPanel-Border"
     backdrop.edgeSize = 32

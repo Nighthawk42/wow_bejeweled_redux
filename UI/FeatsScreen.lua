@@ -2,7 +2,6 @@ local _, ns = ...
 local Bejeweled = ns.addon
 local C = ns.C
 local BOARD_WIDTH, BOARD_HEIGHT = C.BOARD_WIDTH, C.BOARD_HEIGHT
-local IMAGE_PATH = C.IMAGE_PATH
 
 -- Feats of Skill screen: four tabs (skill rank + feat list, personal statistics, friend/guild
 -- high scores, achievements). Also owns Bejeweled.skillBar, whose CheckSkill awards skill points.
@@ -27,7 +26,7 @@ end
 
 local function setRankTexCoord(texture, rank)
     if rank > 0 then
-        texture:SetTexCoord((rank - 1) * 16 / 128, rank * 16 / 128, 0, 1)
+        texture:SetTexCoord(unpack(ns.Textures.Frames("rankIcons")[rank]))
     else
         texture:SetTexCoord(0, 0, 0, 0)
     end
@@ -312,10 +311,10 @@ local function createScrollList(parent, backdrop)
 end
 
 local TAB_LAYOUT = {
-    { width = 88, coords = { 0, 86 / 256, 0, 31 / 256 } },
-    { width = 48, coords = { 86 / 256, 131 / 256, 0, 31 / 256 } },
-    { width = 93, coords = { 131 / 256, 221 / 256, 0, 31 / 256 } },
-    { width = 104, coords = { 0, 102 / 256, 32 / 256, 63 / 256 } },
+    { width = 88, region = "skills" },
+    { width = 48, region = "stats" },
+    { width = 93, region = "scores" },
+    { width = 104, region = "achievements" },
 }
 
 local function createTabs()
@@ -339,8 +338,8 @@ local function createTabs()
         end
         tab.texture:SetWidth(layout.width)
         tab.texture:SetHeight(30)
-        tab.texture:SetTexture(IMAGE_PATH .. "tabs")
-        tab.texture:SetTexCoord(unpack(layout.coords))
+        tab.texture:SetTexture(ns.Textures.Path("tabs"))
+        tab.texture:SetTexCoord(ns.Textures.Coords("tabs", layout.region))
         if previous then
             tab.texture:SetVertexColor(0.5, 0.5, 0.5)
             tab:SetFrameLevel(window:GetFrameLevel() + 24)
@@ -358,7 +357,7 @@ local function createSkillBar(content)
     skillBar:SetWidth(CONTENT_WIDTH)
     skillBar:SetHeight(32)
     skillBar:SetBackdrop(
-        buildBackdrop(IMAGE_PATH .. "windowBackground", 64, "Interface\\Buttons\\UI-SliderBar-Border", 8, 2)
+        buildBackdrop(ns.Textures.Path("windowBackground"), 64, "Interface\\Buttons\\UI-SliderBar-Border", 8, 2)
     )
     skillBar:SetBackdropColor(0.1, 0.1, 0.1, 0)
     skillBar:SetFrameLevel(content:GetFrameLevel() + 2)
@@ -376,7 +375,7 @@ local function createSkillBar(content)
     barBackground:SetFrameLevel(content:GetFrameLevel() + 1)
 
     local bar = barBackground:CreateTexture(nil, "OVERLAY")
-    bar:SetTexture(IMAGE_PATH .. "barArt")
+    bar:SetTexture(ns.Textures.Path("barArt"))
     bar:SetVertexColor(0, 0.2, 1)
     bar:SetPoint("TOPLEFT", 2, -5)
     bar:SetHeight(32)
@@ -388,7 +387,7 @@ local function createSkillBar(content)
 
     for _, side in ipairs({ "left", "right" }) do
         local icon = skillBar:CreateTexture(nil, "OVERLAY")
-        icon:SetTexture(IMAGE_PATH .. "rankIcons")
+        icon:SetTexture(ns.Textures.Path("rankIcons"))
         if side == "left" then
             icon:SetPoint("TOPLEFT", 3, -6)
         else
@@ -667,7 +666,7 @@ end
 local function createRadio(content, x, label, id)
     local radio = CreateFrame("CheckButton", nil, content, "UIRadioButtonTemplate")
     radio:SetPoint("TOPLEFT", x, 0)
-    radio.text:SetFont(C.FONT, 12, "OUTLINE")
+    radio.text:SetFont(ns.Textures.Font(), 12, "OUTLINE")
     radio.text:SetTextColor(1, 0.85, 0.1)
     radio.text:SetText(label)
     radio:SetHitRectInsets(0, -130, 0, 0)
@@ -695,7 +694,7 @@ local function createScoreTable(content, prefix, title, captionY, panelY)
         widget:ClearAllPoints()
         widget:SetPoint("TOPRIGHT", panel, "TOPLEFT", 38, -y)
         widget = panel:CreateTexture(nil, "ARTWORK")
-        widget:SetTexture(IMAGE_PATH .. "rankIcons")
+        widget:SetTexture(ns.Textures.Path("rankIcons"))
         widget:SetTexCoord(0, 0, 0, 0)
         widget:SetWidth(10)
         widget:SetHeight(10)
@@ -779,7 +778,7 @@ local function updateAchievementsTab(self)
                     lastCompleted = plate
                     plate.title:SetVertexColor(1, 1, 1)
                     plate.text:SetVertexColor(0, 0, 0)
-                    plate.texture:SetTexCoord(0, 401 / 512, 0, 60 / 128)
+                    plate.texture:SetTexCoord(ns.Textures.Coords("achievementplates", "earned"))
                     plate.icon:SetVertexColor(1, 1, 1)
                 else
                     if lastLocked then
@@ -790,7 +789,7 @@ local function updateAchievementsTab(self)
                     lastLocked = plate
                     plate.title:SetVertexColor(0.7, 0.7, 0.7)
                     plate.text:SetVertexColor(1, 1, 1)
-                    plate.texture:SetTexCoord(0, 401 / 512, 60 / 128, 120 / 128)
+                    plate.texture:SetTexCoord(ns.Textures.Coords("achievementplates", "unearned"))
                     plate.icon:SetVertexColor(0.5, 0.5, 0.5)
                 end
                 plate.text:Show()
@@ -852,8 +851,8 @@ local function createAchievementsTab()
             plate.text:SetJustifyH("CENTER")
             plate.texture = plate:CreateTexture(nil, "ARTWORK")
             plate.texture:SetAllPoints(plate)
-            plate.texture:SetTexture(IMAGE_PATH .. "achievementplates")
-            plate.texture:SetTexCoord(0, 401 / 512, 0, 60 / 128)
+            plate.texture:SetTexture(ns.Textures.Path("achievementplates"))
+            plate.texture:SetTexCoord(ns.Textures.Coords("achievementplates", "earned"))
             plate.icon = plate:CreateTexture(nil, "OVERLAY")
             plate.icon:SetPoint("TOPLEFT", 10, -10)
             plate.icon:SetWidth(32)
@@ -877,7 +876,7 @@ ns.RegisterBuilder("FeatsScreen", function()
     featsScreen:SetHeight(BOARD_HEIGHT + 6 - 22)
     featsScreen:EnableMouse(true)
     featsScreen:SetBackdrop(
-        buildBackdrop(IMAGE_PATH .. "windowBackground", 128, "Interface\\Glues\\Common\\TextPanel-Border", 32)
+        buildBackdrop(ns.Textures.Path("windowBackground"), 128, "Interface\\Glues\\Common\\TextPanel-Border", 32)
     )
     featsScreen:SetBackdropColor(0.43, 0.43, 0.43, 1)
     featsScreen:SetBackdropBorderColor(1, 0.8, 0.45)
@@ -898,7 +897,7 @@ ns.RegisterBuilder("FeatsScreen", function()
         Bejeweled.animator.hintObj:SetAlpha(1)
     end)
     featsScreen.panelBackdrop =
-        buildBackdrop(IMAGE_PATH .. "windowBackground", 128, "Interface\\Glues\\Common\\TextPanel-Border", 32, 2)
+        buildBackdrop(ns.Textures.Path("windowBackground"), 128, "Interface\\Glues\\Common\\TextPanel-Border", 32, 2)
     Bejeweled.featsOfSkillScreen = featsScreen
 
     createTabs()

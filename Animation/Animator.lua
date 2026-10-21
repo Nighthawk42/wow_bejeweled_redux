@@ -806,12 +806,14 @@ local function animatorOnUpdate(self, elapsed)
                         obj.lightWaveObj:Show()
                     end
                 elseif offsetY >= -GEM_HEIGHT then
-                    local texLeft, texRight, _, texBottom = unpack(GEM_SPIN_TEXCOORDS[1])
+                    -- Reveal only the visible bottom part of the resting-gem frame.
+                    local texLeft, texRight, texTop, texBottom = unpack(GEM_SPIN_TEXCOORDS[1])
                     offsetY = floor(offsetY + GEM_HEIGHT)
                     obj.texture:ClearAllPoints()
                     obj.texture:SetPoint("BOTTOM")
                     obj.texture:SetHeight(offsetY)
-                    obj.texture:SetTexCoord(texLeft, texRight, (GEM_HEIGHT - offsetY) / 255, texBottom)
+                    local visibleTop = texBottom - (texBottom - texTop) * offsetY / GEM_HEIGHT
+                    obj.texture:SetTexCoord(texLeft, texRight, visibleTop, texBottom)
                     if obj.lightWaveObj then
                         obj.lightWaveObj:Hide()
                     end
