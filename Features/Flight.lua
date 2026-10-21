@@ -58,8 +58,10 @@ function ns.flightTimerOnUpdate(self, elapsed)
         timedWindow.flightCheckbox:Hide()
         timedWindow.flightCheckboxCaption:Show()
     end
-    if self.timeRemaining <= 0 and not menu.learning then
-        self:Hide()
+    -- Past the learned time the "use flight time" option goes away, but the timer keeps
+    -- running until the actual landing.
+    if self.timeRemaining <= 0 and not menu.learning and not self.overrun then
+        self.overrun = true
         hideTimedFlightOptions()
     end
     if timedWindow:IsVisible() then
@@ -69,6 +71,7 @@ function ns.flightTimerOnUpdate(self, elapsed)
             timedWindow.timeRemainingValue:SetText(Bejeweled:TotalTime(math.floor(self.timeRemaining)))
         end
     end
+    ns.Flight.CheckLanding()
 end
 
 -- Stores the measured duration of the flight that just landed. A time within 5 s of the stored one
@@ -129,32 +132,22 @@ function events:UNIT_FLAGS(_, unit)
     end
 end
 
-function events:PLAYER_LEAVING_WORLD()
-    Bejeweled.window.switchingZones = true
-end
-
-function events:PLAYER_CONTROL_GAINED()
-    local window = Bejeweled.window
-    if window.switchingZones then
-        window.switchingZones = nil
-        return
-    end
-    -- Control also comes back after loading screens mid-flight.
-    if UnitOnTaxi("player") then
-        return
-    end
+-- Ends the flight once the player is off the taxi. Called from the flight timer's OnUpdate and on
+-- PLAYER_CONTROL_GAINED: when that event fires on landing, UnitOnTaxi can still be true for a
+-- moment, so the timer keeps checking until it clears.
+function ns.Flight.CheckLanding()
     local menu = Bejeweled.flightOptionWindow
     local timer = menu.timer
-    if not timer.timeElapsed then
+    if not timer.timeElapsed or UnitOnTaxi("player") then
         return
     end
+    local window = Bejeweled.window
     timer:Hide()
     hideTimedFlightOptions()
     Bejeweled:UpdateFlightTimes()
-    self:UnregisterEvent("PLAYER_CONTROL_GAINED")
-    self:UnregisterEvent("PLAYER_LEAVING_WORLD")
+    events:UnregisterEvent("PLAYER_CONTROL_GAINED")
     local levelTimer = Bejeweled.levelBar.timer
-    if ns.game.gameMode == MODE_FLIGHT and levelTimer.timeElapsed then
+    if ns.game.gameMode == MODE_FLIGHT and not ns.game.gameOver and levelTimer.timeElapsed then
         if math.abs(timer.timeElapsed - levelTimer.timeElapsed) > 1 then
             levelTimer.timeElapsed = timer.timeElapsed
         end
@@ -164,6 +157,7 @@ function events:PLAYER_CONTROL_GAINED()
     timer.elapsed = nil
     timer.timeElapsed = nil
     timer.takeoffTime = nil
+    timer.overrun = nil
     menu.learning = nil
     if ns.db.profile.closeFlightEnd and window:IsShown() and not Bejeweled.popup:IsVisible() then
         Bejeweled.const.windowGameOverFadeOut.fadeTimer = 0
@@ -171,6 +165,10 @@ function events:PLAYER_CONTROL_GAINED()
         window.mouseOverScreen:Show()
         window.hiding = true
     end
+end
+
+function events:PLAYER_CONTROL_GAINED()
+    ns.Flight.CheckLanding()
 end
 
 local function addFlightTimeLine(slot)
@@ -277,8 +275,6 @@ local function createFlightOptionMenu()
                 timedWindow.timerRemainingCaption:SetText("Remaining flight time")
             end
             events:RegisterEvent("PLAYER_CONTROL_GAINED")
-            events:RegisterEvent("PLAYER_LEAVING_WORLD")
-            Bejeweled.window.switchingZones = nil
             local profile = ns.db.profile
             if profile.newGameFlight and (Bejeweled.window:IsVisible() or profile.openFlightStart) then
                 self.buttonGo:OnClickScript()
