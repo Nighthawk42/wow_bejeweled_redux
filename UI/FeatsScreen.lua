@@ -61,7 +61,7 @@ end
 
 local function allOtherAchievementsDone(skill, skillData, const)
     for i = 1, #skillData[const.SKILLTYPE_FUN] do
-        if not skill["gainFun" .. i] then
+        if not skill["gainFun" .. i] and ns.Achievements.IsAvailable(i) then
             return false
         end
     end

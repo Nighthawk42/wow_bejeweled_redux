@@ -1,4 +1,4 @@
-## Interface: 120100
+## Interface: 120100, 50504, 20506, 11509, 38002, 16001
 ## Title: Bejeweled Redux
 ## Version: 1.0.0
 ## Notes: The popular game Bejeweled, rebuilt for modern World of Warcraft!

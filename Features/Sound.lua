@@ -84,7 +84,10 @@ local function playQueued(sound)
     end
     if sound.LevelUp then
         sound.LevelUp = nil
-        PlaySound(SOUNDKIT.UI_GARRISON_COMMAND_TABLE_FOLLOWER_LEVEL_UP, "Master")
+        -- The sound kit is defined everywhere, but older clients may lack its file.
+        if not PlaySound(SOUNDKIT.UI_GARRISON_COMMAND_TABLE_FOLLOWER_LEVEL_UP, "Master") then
+            playFile(prefix, "hypergem_creation.mp3")
+        end
     end
     -- Only the lowest queued combo level plays per frame; higher ones wait for later frames.
     if sound.Combo then

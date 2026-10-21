@@ -4,20 +4,27 @@ Bejeweled has returned to Azeroth! A game originally made by PopCap Games, Inc.,
 
 Bejeweled Redux is a ground-up modernization of the original addon. It installs as its own addon (`BejeweledRedux`) with its own saved data, so it can sit alongside the original. The original addon and its Classic releases are archived at [Nighthawk42/wow_bejeweled](https://github.com/Nighthawk42/wow_bejeweled).
 
-## Client Versions
+## Supported Clients
 
-| Branch | Client Flavor | Interface Version | Status |
-|---|---|---|---|
-| [`main`](https://github.com/Nighthawk42/wow_bejeweled_redux/tree/main) | **Retail / Midnight** | `120100` | Current (1.0.0) |
+One download works on every supported client.
 
-The Classic flavors (Mists, Cataclysm, Wrath, TBC Anniversary and Classic Era) are being rebuilt on the new code base and will return as their own branches.
+| Client | Interface | Status |
+|---|---|---|
+| **Retail** (Midnight) | `120100` | Supported |
+| **WoW Forever** | `16001` | Supported (beta client) |
+| **Mists of Pandaria Classic** | `50504` | Supported |
+| **Titan Reforged** (Wrath) | `38002` | Supported |
+| **TBC Anniversary** | `20506` | Supported |
+| **Classic Era** | `11509` | Supported |
+
+On Classic Era, "Two Gems Enter, One Gem Leaves" (win an arena match) is unavailable because the client has no arenas, and it doesn't count against "Complete all Achievements".
 
 ## Installation
 
 1. Download the latest release zip from the [Releases](https://github.com/Nighthawk42/wow_bejeweled_redux/releases) page.
-2. Extract the `BejeweledRedux` folder into `World of Warcraft/_retail_/Interface/AddOns/`.
+2. Extract the `BejeweledRedux` folder into your client's `Interface/AddOns/` folder, for example `World of Warcraft/_retail_/Interface/AddOns/` or `World of Warcraft/_classic_era_/Interface/AddOns/`.
 
-Release archives include everything. If you install Retail straight from a git checkout instead, run `scripts/fetch-libs.sh` first: the libraries (Ace3, LibDataBroker, LibDBIcon) are downloaded, not committed.
+Release archives include everything. If you install straight from a git checkout instead, run `scripts/fetch-libs.sh` first: the libraries (Ace3, LibDataBroker, LibDBIcon) are downloaded, not committed.
 
 ## Usage
 

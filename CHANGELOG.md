@@ -5,6 +5,7 @@ All notable changes to Bejeweled Redux. Versions follow [Semantic Versioning](ht
 ## [1.0.0] - Unreleased
 
 - **Bejeweled Redux**: First release as its own addon (`BejeweledRedux`) and repository. It can be installed alongside the original Bejeweled; `/bejredux` always opens this one.
+- **All clients, one package**: Runs on Retail (Midnight), WoW Forever, Mists of Pandaria Classic, Titan Reforged, TBC Anniversary and Classic Era from a single download, with runtime checks where the APIs differ.
 - **Rewrite**: The obfuscated single `Bejeweled.lua` was deobfuscated, then split into one file per system (`Core/`, `Data/`, `Game/`, `Animation/`, `UI/`, `Features/`, `Config/`).
 - **Libraries**: Now built on Ace3 (AceAddon, AceEvent, AceTimer, AceConsole, AceDB, AceDBOptions, AceComm, AceSerializer, AceGUI, AceConfig), LibDataBroker-1.1 and LibDBIcon-1.0.
 - **Fresh saved data**: Stats, skills and high scores start over in a new `BejeweledReduxDB` (AceDB, with profiles). Old `BejeweledProfile` / `BejeweledData` saves are not migrated.
@@ -13,7 +14,7 @@ All notable changes to Bejeweled Redux. Versions follow [Semantic Versioning](ht
 - **Minimap**: The minimap button now uses LibDBIcon. Added an addon compartment entry. Titan Panel shows the LibDataBroker launcher; the FuBar and Titan-specific plugins were removed.
 - **Auto open/close triggers** (on login, death, ready check, combat, flight start/end) are now opt-in and off by default.
 - **Flight paths**: Flight times are learned per route (origin and destination node) with the modern taxi APIs and shown on Flight Map tooltips. The obsolete built-in coordinate tables were removed.
-- **Achievements**: Fun achievements that relied on the combat log, which Midnight no longer gives to addons, now use the death recap, `PARTY_KILL`, `PVP_MATCH_COMPLETE` and `READY_CHECK_CONFIRM`. "Say yes to a raid ready check" now counts any ready check, and "Gain Honor from a killing blow" is now "Get an honorable kill".
+- **Achievements**: Fun achievements that relied on the combat log, which Midnight no longer gives to addons, now use the death recap, `PARTY_KILL`, `PVP_MATCH_COMPLETE` and `READY_CHECK_CONFIRM`. "Say yes to a raid ready check" now counts any ready check, and "Gain Honor from a killing blow" is now "Get an honorable kill". Classic clients, which still have the combat log, use it to back up the death checks. Arena wins on Classic come from the battlefield status, and the arena achievement is unavailable on Classic Era.
 - **Skill cap**: The full 450 skill and Grand Master rank are reachable again. The 375 cap was meant for accounts without Wrath of the Lich King.
 - **Fixes**:
   - Friend high scores were always deleted and friend whispers dropped, because of a broken friend lookup.

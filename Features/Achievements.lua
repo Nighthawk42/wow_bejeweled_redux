@@ -3,21 +3,44 @@ local Bejeweled = ns.addon
 
 -- "Fun" achievements: things that happen in the world while a Bejeweled game is open (dying, looting,
 -- killing a rare, ...). Only unearned achievements get a watcher, and watchers only fire while a game
--- is active and the window is visible. The combat log is closed to addons in Midnight, so kills and
--- deaths come from PARTY_KILL and the death recap. Many payloads turn secret inside instances, PvP
--- and encounters; secret values are skipped.
+-- is active and the window is visible. The combat log is closed to addons on Retail and WoW Forever,
+-- so kills and deaths come from PARTY_KILL and the death recap; Classic clients still have the combat
+-- log, which backs up the death recap there. Many payloads turn secret inside instances, PvP and
+-- encounters on Retail; secret values are skipped. Events a client doesn't have are never registered.
 
 ns.Achievements = {}
 
 local CREATURE_TYPE_CRITTER = 8
 local MAX_UNIT_CACHE = 200
+local FUN_ARENA_WIN = 15
+
+local isSecret = issecretvalue or function()
+    return false
+end
+-- Public on Classic clients only; Retail and WoW Forever close the combat log to addons.
+local getCombatLogEvent = CombatLogGetCurrentEventInfo
 
 local events = {}
 LibStub("AceEvent-3.0"):Embed(events)
 
 local watchers = {} -- event -> { { id = funIndex, func = handler }, ... }
 local unitCache, unitCacheSize = {}, 0 -- GUID -> { creatureType, classification }
+local lastDamage -- { event, environmentalType } of the latest hit on the player (Classic combat log)
 local loaded
+
+-- Achievements that can't happen on this client (Classic Era has no arenas).
+local unavailable = {}
+if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+    unavailable[FUN_ARENA_WIN] = true
+end
+
+function ns.Achievements.IsAvailable(id)
+    return not unavailable[id]
+end
+
+local function isEventValid(event)
+    return not (C_EventUtils and C_EventUtils.IsEventValid) or C_EventUtils.IsEventValid(event)
+end
 
 local function isEarned(id)
     return ns.db.char.skill["gainFun" .. id]
@@ -56,7 +79,7 @@ local function dispatch(event, ...)
 end
 
 local function watch(event, id, func)
-    if isEarned(id) then
+    if isEarned(id) or unavailable[id] or not isEventValid(event) then
         return
     end
     if not watchers[event] then
@@ -68,7 +91,7 @@ end
 
 local function anySecret(...)
     for i = 1, select("#", ...) do
-        if issecretvalue(select(i, ...)) then
+        if isSecret(select(i, ...)) then
             return true
         end
     end
@@ -79,7 +102,7 @@ end
 -- player has targeted or moused over.
 local function cacheUnit(unit)
     local guid = UnitGUID(unit)
-    if not guid or issecretvalue(guid) or unitCache[guid] then
+    if not guid or isSecret(guid) or unitCache[guid] then
         return
     end
     local _, creatureType = UnitCreatureType(unit)
@@ -107,14 +130,29 @@ local function onPlayerKill(func)
     end
 end
 
--- Killing blow of the player's latest death, from the death recap (filled shortly after PLAYER_DEAD).
+-- Classic only: remembers the latest damage the player took, for clients without a death recap.
+local function onCombatLogEvent()
+    local _, subEvent, _, _, _, _, _, destGUID, _, _, _, environmentalType = getCombatLogEvent()
+    if destGUID ~= UnitGUID("player") or not subEvent:find("_DAMAGE$") then
+        return
+    end
+    lastDamage = {
+        event = subEvent,
+        environmentalType = subEvent == "ENVIRONMENTAL_DAMAGE" and environmentalType or nil,
+    }
+end
+
+-- Killing blow of the player's latest death: the death recap (filled shortly after PLAYER_DEAD), or
+-- the last combat log hit on clients whose recap is empty.
 local function onDeath(func)
     return function()
+        local fromCombatLog = lastDamage
         C_Timer.After(1, function()
-            if not C_DeathRecap.HasRecapEvents() then
-                return
+            local killingBlow
+            if C_DeathRecap and C_DeathRecap.HasRecapEvents() then
+                killingBlow = C_DeathRecap.GetRecapEvents()[1]
             end
-            local killingBlow = C_DeathRecap.GetRecapEvents()[1]
+            killingBlow = killingBlow or fromCombatLog
             if not killingBlow or anySecret(killingBlow.event, killingBlow.environmentalType) then
                 return
             end
@@ -131,7 +169,7 @@ local function toPattern(globalString)
 end
 
 local function isOwnLoot(text, guid)
-    if guid and not issecretvalue(guid) and guid ~= "" then
+    if guid and not isSecret(guid) and guid ~= "" then
         return guid == UnitGUID("player")
     end
     if not lootSelfPatterns then
@@ -270,14 +308,25 @@ local function registerWatchers()
     end)
 
     -- 15: win an arena match (same outcome test as Blizzard's PvP match results)
-    watch("PVP_MATCH_COMPLETE", 15, function(winner)
-        if issecretvalue(winner) or not C_PvP.IsMatchConsideredArena() or C_PvP.IsInBrawl() then
-            return
-        end
-        if winner == GetBattlefieldArenaFaction() then
-            award(const.SKILL_FUNRANK6B)
-        end
-    end)
+    if isEventValid("PVP_MATCH_COMPLETE") then
+        watch("PVP_MATCH_COMPLETE", FUN_ARENA_WIN, function(winner)
+            if isSecret(winner) or not C_PvP.IsMatchConsideredArena() or C_PvP.IsInBrawl() then
+                return
+            end
+            if winner == GetBattlefieldArenaFaction() then
+                award(const.SKILL_FUNRANK6B)
+            end
+        end)
+    else
+        -- Classic: the winner is known once the arena's battlefield status updates at the end.
+        -- TODO(in-game): confirm GetBattlefieldWinner matches GetBattlefieldArenaFaction on a win.
+        watch("UPDATE_BATTLEFIELD_STATUS", FUN_ARENA_WIN, function()
+            local winner = IsActiveBattlefieldArena() and GetBattlefieldWinner()
+            if winner and winner == GetBattlefieldArenaFaction() then
+                award(const.SKILL_FUNRANK6B)
+            end
+        end)
+    end
 end
 
 local function onUnitSeen(event)
@@ -315,6 +364,9 @@ function ns.Achievements.Load()
     if watchers.PARTY_KILL then
         events:RegisterEvent("PLAYER_TARGET_CHANGED", onUnitSeen)
         events:RegisterEvent("UPDATE_MOUSEOVER_UNIT", onUnitSeen)
+    end
+    if getCombatLogEvent and watchers.PLAYER_DEAD then
+        events:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", onCombatLogEvent)
     end
 end
 

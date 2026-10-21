@@ -7,35 +7,43 @@ Thank you for helping maintain and improve *Bejeweled Redux*! This guide covers 
 ## 🚀 Getting Started
 
 1. Clone the repository and run `scripts/fetch-libs.sh` (Git Bash works on Windows) to download the libraries into `Libs/`.
-2. Make the checkout visible to the game. Either copy it to `World of Warcraft/_retail_/Interface/AddOns/BejeweledRedux`, or link it so edits apply on `/reload`:
+2. Make the checkout visible to the game. Either copy it to `<client folder>/Interface/AddOns/BejeweledRedux` (for example `World of Warcraft/_retail_/`), or link it so edits apply on `/reload`. Linking the same checkout into several clients lets you test them all:
    - Windows: `mklink /J "<WoW>\_retail_\Interface\AddOns\BejeweledRedux" "<path to checkout>"`
    - macOS/Linux: `ln -s <path to checkout> "<WoW>/_retail_/Interface/AddOns/BejeweledRedux"`
 3. Only the runtime files are needed in-game: `BejeweledRedux.toc`, `embeds.xml`, the code folders, `Libs/`, `images/` and `sounds/`.
 
 ---
 
-## 🌿 Branches
+## 🌿 Supported Clients
 
-| Branch | Client Flavor | Interface Version | Purpose |
-|---|---|---|---|
-| [`main`](https://github.com/Nighthawk42/wow_bejeweled_redux/tree/main) | **Retail / Midnight** | `120100` | Default development branch |
+All clients are served from the single `main` branch and a single package:
 
-Classic flavors will get their own branches, built from `main` with flavor-specific API changes.
+| Client | Interface | Status |
+|---|---|---|
+| **Retail** (Midnight) | `120100` | Supported |
+| **WoW Forever** | `16001` | Supported (beta client) |
+| **Mists of Pandaria Classic** | `50504` | Supported |
+| **Titan Reforged** (Wrath) | `38002` | Supported |
+| **TBC Anniversary** | `20506` | Supported |
+| **Classic Era** | `11509` | Supported |
 
 ---
 
 ## 🛠️ Development & Contribution Workflow
 
-### 1. General Fixes & Features
+### 1. Fixes & Features
 - Base your work on `main`, test it in-game, and open a Pull Request against `main`.
-- Changes that apply to every client are propagated from `main` to the flavor branches once they exist.
 
-### 2. Flavor-Specific Fixes (API Differences)
-- Fixes that only apply to one client go directly against that client's branch. Note in the PR description why the change is flavor-specific.
+### 2. Client Differences
+Every client runs the same files. Where APIs differ, check at runtime instead of forking the code:
+- Feature-test functions and tables: `if C_DeathRecap then ... end`, `local isSecret = issecretvalue or function() return false end`.
+- Only register events the client has: `C_EventUtils.IsEventValid(event)`. Registering an unknown event raises an error.
+- Use `WOW_PROJECT_ID` only for differences in game content rather than API (for example, Classic Era has no arenas).
+- Use the Retail code path wherever an API exists everywhere, and add the fallback beside it with a one-line comment naming the client that needs it.
 
 ### 3. TOC & Versioning Conventions
-- **Single TOC:** Each branch has one `BejeweledRedux.toc`. Do not introduce flavor suffixes (`BejeweledRedux_Mainline.toc`, etc.).
-- **TOC Interface Numbers:** Ensure `## Interface:` matches the latest patch interface value for that client flavor.
+- **Single TOC:** `BejeweledRedux.toc` lists every supported client in one comma-separated `## Interface:` line. Do not add suffixed TOCs (`_Mainline`, `_Vanilla`, ...) unless a client needs a different file list.
+- **TOC Interface Numbers:** When a client patches, update its number in the `## Interface:` list.
 - **Version Strings:** Versions follow [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`), independent of WoW client versions. Update `## Version:` in `BejeweledRedux.toc` (the About screen reads it from there) and add a matching entry to [CHANGELOG.md](CHANGELOG.md).
 
 ### 4. Releases
@@ -64,8 +72,9 @@ Conventions:
 - Lua 5.1 allows at most 60 upvalues per function; large functions should read rarely used constants as `C.NAME` instead of file-level locals.
 - Settings are booleans (`true`/`false`), never `1`/`nil`. Unnamed frames take `nil` as their name, not `""`.
 
-### Midnight (12.x) Restrictions
-- Addons no longer receive `COMBAT_LOG_EVENT_UNFILTERED`; use other events, such as the death recap or `PARTY_KILL`.
+### Midnight Restrictions (Retail and WoW Forever)
+WoW Forever runs on the Retail engine, so these apply to both. Classic clients don't have them, but code must still work where they do.
+- Addons no longer receive `COMBAT_LOG_EVENT_UNFILTERED`; use other events, such as the death recap or `PARTY_KILL`. Classic clients keep the combat log, and `Features/Achievements.lua` uses it there as a fallback.
 - Unit data and event payloads can be *secret values* in instances, encounters and PvP. Check with `issecretvalue()` before comparing or doing arithmetic, and never do math on `UnitHealth`.
 - Addon messages and chat can be locked down (`C_ChatInfo.InChatMessagingLockdown()`). `Features/HighScores.lua` queues messages until the lockdown lifts; follow the same pattern for anything that sends.
 
@@ -82,7 +91,7 @@ Ace3, LibDataBroker-1.1 and LibDBIcon-1.0 are not committed. Release builds pull
 ---
 
 ## 🧪 Testing Guidelines
-- Test changes in-game on the client the branch targets before submitting a PR. Use BugSack / BugGrabber to catch silent Lua errors.
+- Test changes in-game before submitting a PR, on Retail and, for anything touching client-specific code, on at least one Classic client. Use BugSack / BugGrabber to catch silent Lua errors.
 - At minimum, check:
   - Login, the first-run legal notice and the splash screen.
   - A Classic game: play, pause, `/reload` to resume, game over and summary.
